@@ -1,15 +1,18 @@
 class Player {
   constructor() {
     this.x = canvas.width / 2;
-    this.y = canvas.height - 20;
+    this.y = canvas.height - 40;
     this.speed = PLAYER_SPEED;
     this.damage = 1;
     this.health = 3;
     this.flashArray = playerFlashArray;
     this.flashCounter = 0;
     this.image = playerImage01;
+    this.shootPattern = 1;
     this.megaBombs = 1;
     this.maxMegaBombs = 2;
+    this.rateOfFire = 1000;
+    this.lastShot = new Date() / 1;
   }
   moveLeft() {
     if (this.x > 0) {
@@ -32,7 +35,24 @@ class Player {
     }
   }
   shoot() {
-    playerBullets.push(new playerBullet(this.x, this.y, 0, 1));
+    let now = new Date() / 1;
+    if (now - this.lastShot > this.rateOfFire) {
+      if (this.shootPattern === 1) {
+        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
+      }
+      if (this.shootPattern === 2) {
+        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, 0, 1));
+        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0, 1));
+      }
+      if (this.shootPattern === 3) {
+        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
+        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, -0.1, 1));
+        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0.1, 1));
+      }
+    } else {
+      return;
+    }
+    this.lastShot = new Date() / 1;
   }
   megaBomb = () => {
     if (player.megaBombs > 0) {

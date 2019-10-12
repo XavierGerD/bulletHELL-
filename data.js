@@ -8,6 +8,7 @@ let PLAYER_WIDTH = 30;
 let PLAYER_HEIGHT = 30;
 let PLAYER_SPEED = 2;
 let GAMESPEED = 10;
+let POWERUP_SIZE = 15;
 
 let body = document.getElementById("body");
 let canvas = document.createElement("canvas");
@@ -39,6 +40,22 @@ let megaBombSilhouetteImg = new Image();
 megaBombSilhouetteImg.src = "Assets/megabomb_silhouette.png";
 
 let playerFlashArray = [playerFlash, playerImage01, playerFlash, playerImage01, playerFlash, playerImage01];
+
+//powerup images
+let doubleShootPwrUp = new Image();
+doubleShootPwrUp.src = "Assets/doubleshoot_powerup.png";
+
+let tripleShootPwrUp = new Image();
+tripleShootPwrUp.src = "Assets/tripleshoot_powerup.png";
+
+let increaseDmg = new Image();
+increaseDmg.src = "Assets/increaseDamage_powerup.png";
+
+let increaseRoF = new Image();
+increaseRoF.src = "Assets/increaseRoF_powerup.png";
+
+let megaBombPwrUp = new Image();
+megaBombPwrUp.src = "Assets/megaBomb_powerup.png";
 
 //bullet images
 let bulletImage01 = new Image();
@@ -72,8 +89,8 @@ enemyExplode4.src = "Assets/enemyExplode4.png";
 let enemyImage02 = new Image();
 enemyImage02.src = "Assets/EnemyShip02.png";
 
-// let enemy01Flash = new Image();
-// enemy01Flash.src = "Assets/EnemyShip01_flash.png";
+let enemy02Flash = new Image();
+enemy02Flash.src = "Assets/EnemyShip02_flash.png";
 
 // let enemyExplode1 = new Image();
 // enemyExplode1.src = "Assets/enemyExplode1.png";
@@ -95,3 +112,5 @@ let SHOOTPATTERN2Y = [0.92, 0.71, 0.92, 0.92, 0.71, 0.92];
 
 let enemy1Expl = [enemyExplode1, enemyExplode2, enemyExplode3, enemyExplode4];
 let enemy1flashAnim = [enemy01Flash, enemyImage01, enemy01Flash, enemyImage01, enemy01Flash, enemyImage01];
+
+let enemy2flashAnim = [enemy02Flash, enemyImage02, enemy02Flash, enemyImage02, enemy02Flash, enemyImage02];

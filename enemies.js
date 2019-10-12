@@ -62,7 +62,7 @@ class EnemyT2 extends Enemy {
     super(x, enemySpeedModifier);
     this.image = enemyImage02;
     this.health = 8;
-    this.flashArray = enemy1flashAnim;
+    this.flashArray = enemy2flashAnim;
     this.explArray = enemy1Expl;
     this.shootPatternX = SHOOTPATTERN2X;
     this.shootPatternY = SHOOTPATTERN2Y;

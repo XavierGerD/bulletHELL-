@@ -7,7 +7,7 @@ let setFlashCounter = () => {
 
 let flashCounterDecrease = () => {
   if (globalFlashCounter > 0) {
-    globalFlashCounter -= 0.008;
+    globalFlashCounter -= 0.005;
     setTimeout(flashCounterDecrease, 10);
   }
 };

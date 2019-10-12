@@ -9,4 +9,9 @@ let garbageCollection = () => {
       enemies.splice(i, 1);
     }
   });
+  playerBullets.forEach((bullet, i) => {
+    if (bullet.y < 0) {
+      playerBullets.splice(i, 1);
+    }
+  });
 };

@@ -2,6 +2,7 @@ let upPressed = false;
 let downPressed = false;
 let leftPressed = false;
 let rightPressed = false;
+let spacePressed = false;
 
 let keyDownHandler = e => {
   if (e.code === "ArrowUp") {
@@ -17,7 +18,7 @@ let keyDownHandler = e => {
     rightPressed = true;
   }
   if (e.code === "Space") {
-    player.shoot();
+    spacePressed = true;
   }
   if (e.code === "KeyZ") {
     player.megaBomb();
@@ -37,6 +38,9 @@ let keyUpHandler = e => {
   if (e.code === "ArrowRight") {
     rightPressed = false;
   }
+  if (e.code === "Space") {
+    spacePressed = false;
+  }
 };
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -54,5 +58,8 @@ let keyPressListener = () => {
   }
   if (rightPressed) {
     player.moveRight();
+  }
+  if (spacePressed) {
+    player.shoot();
   }
 };

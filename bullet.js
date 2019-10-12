@@ -1,7 +1,7 @@
 class bullet {
-  update(speed) {
-    this.x = this.x + speed * this.xModifier;
-    this.y = this.y + speed * this.yModifier;
+  update() {
+    this.x = this.x + this.speed * this.xModifier;
+    this.y = this.y + this.speed * this.yModifier;
   }
 }
 
@@ -20,9 +20,9 @@ class bulletT1 extends bullet {
 class playerBullet extends bullet {
   constructor(playerX, playerY, xModifier, yModifier) {
     super();
-    this.x = playerX + PLAYER_WIDTH / 2 - 2;
+    this.x = playerX;
     this.y = playerY;
-    this.speed = 0.5;
+    this.speed = -2;
     this.xModifier = xModifier;
     this.yModifier = yModifier;
     this.image = bulletImage02;

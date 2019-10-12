@@ -3,10 +3,13 @@ let playerBullets = [];
 let allEnemies = [];
 let enemySpawnModifier = 1;
 let enemies = [];
+let powerups = [];
 let fireRate = 100;
 let enemySpawnRate = 6000;
+let powerUpSpawnRate = 1000;
 let player = new Player();
 let enemyTypeModifier = 2;
+let powerUpTypeModifier = 5;
 
 let drawGame = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -23,6 +26,10 @@ let drawGame = () => {
 
   enemies.forEach(enemy => {
     ctx.drawImage(enemy.image, enemy.x, enemy.y);
+  });
+
+  powerups.forEach(power => {
+    ctx.drawImage(power.image, power.x, power.y);
   });
 
   ctx.drawImage(player.image, player.x, player.y);
@@ -52,10 +59,13 @@ let move = () => {
     enemy.update(0, ENEMY1_SPEED);
   });
   enemyBullets.forEach(bullet => {
-    bullet.update(2);
+    bullet.update();
   });
   playerBullets.forEach(bullet => {
-    bullet.update(-2);
+    bullet.update();
+  });
+  powerups.forEach(power => {
+    power.update();
   });
   garbageCollection();
 };
@@ -91,6 +101,18 @@ let detectCollision = () => {
       player.loseCondition();
     }
   });
+
+  powerups.forEach((power, i) => {
+    if (
+      power.x + POWERUP_SIZE / 2 > player.x &&
+      power.x + POWERUP_SIZE / 2 < player.x + PLAYER_WIDTH &&
+      power.y + POWERUP_SIZE / 2 > player.y &&
+      power.y + POWERUP_SIZE / 2 < player.y + PLAYER_HEIGHT
+    ) {
+      power.shootDouble();
+      powerups.splice(i, 1);
+    }
+  });
 };
 
 let gameLost = () => {
@@ -99,6 +121,7 @@ let gameLost = () => {
   clearInterval(generateEnemies);
   clearInterval(collisionInterval);
   clearInterval(keyPressInterval);
+  clearInterval(generatePowerUps);
   ctx.font = "20px Kanit";
   ctx.fillStyle = "white";
   ctx.fillText("You lost!", canvas.width / 2 - 45, canvas.height / 2);
@@ -107,11 +130,12 @@ let gameLost = () => {
 
 enemyGeneration();
 
+window.requestAnimationFrame(drawGame);
+
 let shootInterval = setInterval(enemiesShoot, fireRate);
+let collisionInterval = setInterval(detectCollision, GAMESPEED);
 let moveElements = setInterval(move, GAMESPEED);
 let generateEnemies = setInterval(enemyGeneration, enemySpawnRate);
-let collisionInterval = setInterval(detectCollision, GAMESPEED);
+let generatePowerUps = setInterval(powerupGeneration, powerUpSpawnRate);
 let keyPressInterval = setInterval(keyPressListener, GAMESPEED);
 let gameDifficultyInterval = setInterval(gameDifficulty, 5000);
-
-window.requestAnimationFrame(drawGame);
