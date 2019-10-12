@@ -10,18 +10,34 @@ let enemyTypeModifier = 2;
 
 let drawGame = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   ctx.drawImage(background, 0, 0);
-  enemies.forEach(enemy => {
-    ctx.drawImage(enemy.image, enemy.x, enemy.y);
-  });
+
   enemyBullets.forEach(bullet => {
     ctx.drawImage(bullet.image, bullet.x, bullet.y);
   });
+
   playerBullets.forEach(bullet => {
     ctx.drawImage(bullet.image, bullet.x, bullet.y);
   });
+
+  enemies.forEach(enemy => {
+    ctx.drawImage(enemy.image, enemy.x, enemy.y);
+  });
+
   ctx.drawImage(player.image, player.x, player.y);
 
+  ctx.drawImage(healthbar, canvas.width - 44, canvas.height - 24);
+  for (let i = 0; i < player.health; i++) {
+    ctx.drawImage(healthblock, canvas.width - 38 + i * 10, canvas.height - 18);
+  }
+  for (let i = 0; i < player.maxMegaBombs; i++) {
+    ctx.drawImage(megaBombSilhouetteImg, 10 + i * 20, canvas.height - 20);
+  }
+  for (let i = 0; i < player.megaBombs; i++) {
+    ctx.drawImage(megaBombImg, 10 + i * 20, canvas.height - 20);
+  }
+  playAreaFlash();
   window.requestAnimationFrame(drawGame);
 };
 
@@ -52,7 +68,11 @@ let detectCollision = () => {
   playerBullets.forEach((bullet, j) => {
     enemies.forEach((enemy, i) => {
       if (bullet.x > enemy.x && bullet.x < enemy.x + ENEMY1_WIDTH && bullet.y > enemy.y && bullet.y < enemy.y + ENEMY1_HEIGHT) {
-        enemy.health--;
+        enemy.health = enemy.health - player.damage;
+        if (enemy.health > 0) {
+          enemy.flash();
+        }
+
         playerBullets.splice(j, 1);
         if (enemy.health <= 0) {
           enemy.explode();
@@ -61,9 +81,14 @@ let detectCollision = () => {
     });
   });
 
-  enemyBullets.forEach(bullet => {
+  enemyBullets.forEach((bullet, i) => {
     if (bullet.x > player.x && bullet.x < player.x + PLAYER_WIDTH && bullet.y > player.y && bullet.y < player.y + PLAYER_HEIGHT) {
-      gameLost();
+      player.health -= 1;
+      enemyBullets.splice(i, 1);
+      if (player.health > 0) {
+        player.flash();
+      }
+      player.loseCondition();
     }
   });
 };

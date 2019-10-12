@@ -19,6 +19,9 @@ let keyDownHandler = e => {
   if (e.code === "Space") {
     player.shoot();
   }
+  if (e.code === "KeyZ") {
+    player.megaBomb();
+  }
 };
 
 let keyUpHandler = e => {
