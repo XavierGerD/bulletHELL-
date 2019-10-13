@@ -5,13 +5,14 @@ class Player {
     this.speed = PLAYER_SPEED;
     this.damage = 1;
     this.health = 3;
-    this.flashArray = playerFlashArray;
     this.flashCounter = 0;
+    this.engineCounter = 0;
+    this.engineImage = engineAnimArray[this.engineCounter];
     this.image = playerImage01;
     this.PowerUpType = "single";
     this.megaBombs = 1;
     this.maxMegaBombs = 2;
-    this.rateOfFire = 1000;
+    this.rateOfFire = 800;
     this.lastShot = new Date() / 1;
   }
   moveLeft() {
@@ -70,13 +71,21 @@ class Player {
     }
   };
   flash = () => {
-    this.image = this.flashArray[this.flashCounter];
+    this.image = playerFlashArray[this.flashCounter];
     this.flashCounter++;
-    if (this.flashCounter < this.flashArray.length) {
+    if (this.flashCounter < playerFlashArray.length) {
       setTimeout(this.flash, 100);
     }
-    if (this.flashCounter >= this.flashArray.length) {
+    if (this.flashCounter >= playerFlashArray.length) {
       this.flashCounter = 0;
+    }
+  };
+
+  animateEngine = () => {
+    this.engineImage = engineAnimArray[this.engineCounter];
+    this.engineCounter++;
+    if (this.engineCounter >= engineAnimArray.length) {
+      this.engineCounter = 0;
     }
   };
 }

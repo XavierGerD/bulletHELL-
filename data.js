@@ -63,6 +63,24 @@ megaBombSilhouetteImg.src = "Assets/megabomb_silhouette.png";
 
 let playerFlashArray = [playerFlash, playerImage01, playerFlash, playerImage01, playerFlash, playerImage01];
 
+//player engine anim
+let engineAnim1 = new Image();
+engineAnim1.src = "Assets/engineanim1.png";
+
+let engineAnim2 = new Image();
+engineAnim2.src = "Assets/engineanim2.png";
+
+let engineAnim3 = new Image();
+engineAnim3.src = "Assets/engineanim3.png";
+
+let engineAnim4 = new Image();
+engineAnim4.src = "Assets/engineanim4.png";
+
+let engineAnim5 = new Image();
+engineAnim5.src = "Assets/engineanim5.png";
+
+let engineAnimArray = [engineAnim1, engineAnim2, engineAnim3, engineAnim4, engineAnim5, engineAnim4, engineAnim3, engineAnim2];
+
 //powerup images
 let doubleShootPwrUp = new Image();
 doubleShootPwrUp.src = "Assets/doubleshoot_powerup.png";

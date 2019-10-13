@@ -17,7 +17,9 @@ class PowerUp {
       }
       return;
     } else if (this.PowerUpType === "RoF") {
-      gameEngine.player.rateOfFire -= 50;
+      if (gameEngine.player.rateOfFire > 200) {
+        gameEngine.player.rateOfFire -= 50;
+      }
       return;
     } else if (this.PowerUpType === "Health") {
       if (gameEngine.player.health < 3) {

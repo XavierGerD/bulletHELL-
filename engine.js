@@ -53,6 +53,8 @@ class GameEngine {
 
     ctx.drawImage(this.player.image, this.player.x, this.player.y);
 
+    ctx.drawImage(this.player.engineImage, this.player.x + PLAYER_WIDTH / 2 - 2, this.player.y + PLAYER_HEIGHT - 5);
+
     ctx.drawImage(healthbar, canvas.width - 44, canvas.height - 24);
     for (let i = 0; i < this.player.health; i++) {
       ctx.drawImage(healthblock, canvas.width - 38 + i * 10, canvas.height - 18);
@@ -194,5 +196,6 @@ class GameEngine {
     this.generatePowerUps = setInterval(powerupGeneration, this.powerUpSpawnRate);
     this.keyPressInterval = setInterval(keyPressListener, GAMESPEED);
     this.gameDifficultyInterval = setInterval(this.gameDifficulty, 5000);
+    this.playerAnimationInterval = setInterval(this.player.animateEngine, 300);
   }
 }
