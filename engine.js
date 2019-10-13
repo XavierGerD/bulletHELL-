@@ -23,7 +23,6 @@ class GameEngine {
     this.gameDifficultyInterval;
     this.score = 0;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
-    this.animationFrame;
   }
 
   drawGame = () => {
@@ -151,8 +150,8 @@ class GameEngine {
         if (this.player.health > 0) {
           this.player.flash();
         }
-        this.player.loseCondition();
       }
+      this.player.loseCondition();
     });
 
     this.powerups.forEach((power, i) => {
@@ -166,6 +165,7 @@ class GameEngine {
         this.powerups.splice(i, 1);
       }
     });
+    window.requestAnimationFrame(this.detectCollision);
   };
 
   gameLost = () => {
@@ -188,6 +188,9 @@ class GameEngine {
     enemyGeneration();
 
     window.requestAnimationFrame(this.drawGame);
+
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
 
     this.shootInterval = setInterval(this.enemiesShoot, this.fireRate);
     this.collisionInterval = setInterval(this.detectCollision, GAMESPEED);
