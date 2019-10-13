@@ -164,7 +164,7 @@ class GameEngine {
         this.powerups.splice(i, 1);
       }
     });
-    window.requestAnimationFrame(this.detectCollision);
+    this.detectCollisionFrame = window.requestAnimationFrame(this.detectCollision);
   };
 
   isGameLost = () => {
@@ -172,6 +172,7 @@ class GameEngine {
       this.gameLost();
       return;
     }
+    this.isGameLostFrame = window.requestAnimationFrame(this.isGameLost);
   };
 
   gameLost = () => {
@@ -179,11 +180,14 @@ class GameEngine {
     clearInterval(this.shootInterval);
     clearInterval(this.moveElements);
     clearInterval(this.generateEnemies);
-    clearInterval(this.collisionInterval);
-    clearInterval(this.keyPressInterval);
+    // clearInterval(this.collisionInterval);
+    // clearInterval(this.keyPressInterval);
     clearInterval(this.generatePowerUps);
     clearInterval(this.gameDifficultyInterval);
-    clearInterval(this.isGameLostInterval);
+    // clearInterval(this.isGameLostInterval);
+    window.cancelAnimationFrame(this.isGameLostFrame);
+    window.cancelAnimationFrame(this.detectCollisionFrame);
+    window.cancelAnimationFrame(keyPressListenerFrame);
     this.gameLostScreen();
   };
 
@@ -199,17 +203,20 @@ class GameEngine {
     enemyGeneration();
 
     window.requestAnimationFrame(this.drawGame);
+    window.requestAnimationFrame(this.isGameLost);
+    window.requestAnimationFrame(this.detectCollision);
+    window.requestAnimationFrame(keyPressListener);
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
 
-    this.isGameLostInterval = setInterval(this.isGameLost, GAMESPEED);
+    // this.isGameLostInterval = setInterval(this.isGameLost, GAMESPEED);
     this.shootInterval = setInterval(this.enemiesShoot, this.fireRate);
-    this.collisionInterval = setInterval(this.detectCollision, GAMESPEED);
+    // this.collisionInterval = setInterval(this.detectCollision, GAMESPEED);
     this.moveElements = setInterval(this.move, GAMESPEED);
     this.generateEnemies = setInterval(enemyGeneration, this.enemySpawnRate);
     this.generatePowerUps = setInterval(powerupGeneration, this.powerUpSpawnRate);
-    this.keyPressInterval = setInterval(keyPressListener, GAMESPEED);
+    // this.keyPressInterval = setInterval(keyPressListener, GAMESPEED);
     this.gameDifficultyInterval = setInterval(this.gameDifficulty, 5000);
     this.playerAnimationInterval = setInterval(this.player.animateEngine, 300);
   }

@@ -58,6 +58,8 @@ let keyUpHandler = e => {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
+let keyPressListenerFrame;
+
 let keyPressListener = () => {
   if (upPressed) {
     gameEngine.player.moveUp();
@@ -92,4 +94,5 @@ let keyPressListener = () => {
   if (spacePressed) {
     gameEngine.player.shoot();
   }
+  keyPressListenerFrame = window.requestAnimationFrame(keyPressListener);
 };
