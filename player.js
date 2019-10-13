@@ -8,7 +8,7 @@ class Player {
     this.flashArray = playerFlashArray;
     this.flashCounter = 0;
     this.image = playerImage01;
-    this.shootPattern = 1;
+    this.PowerUpType = "single";
     this.megaBombs = 1;
     this.maxMegaBombs = 2;
     this.rateOfFire = 1000;
@@ -37,17 +37,17 @@ class Player {
   shoot() {
     let now = new Date() / 1;
     if (now - this.lastShot > this.rateOfFire) {
-      if (this.shootPattern === 1) {
-        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
+      if (this.PowerUpType === "single") {
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
       }
-      if (this.shootPattern === 2) {
-        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, 0, 1));
-        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0, 1));
+      if (this.PowerUpType === "double") {
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, 0, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0, 1));
       }
-      if (this.shootPattern === 3) {
-        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
-        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, -0.1, 1));
-        playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0.1, 1));
+      if (this.PowerUpType === "triple") {
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, -0.1, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0.1, 1));
       }
     } else {
       return;
@@ -55,9 +55,9 @@ class Player {
     this.lastShot = new Date() / 1;
   }
   megaBomb = () => {
-    if (player.megaBombs > 0) {
+    if (this.megaBombs > 0) {
       setFlashCounter();
-      enemies.forEach(enemy => {
+      gameEngine.enemies.forEach(enemy => {
         enemy.explode();
       });
       this.megaBombs--;
@@ -66,7 +66,7 @@ class Player {
 
   loseCondition = () => {
     if (this.health < 1) {
-      gameLost();
+      gameEngine.gameLost();
     }
   };
   flash = () => {

@@ -20,8 +20,13 @@ let keyDownHandler = e => {
   if (e.code === "Space") {
     spacePressed = true;
   }
-  if (e.code === "KeyZ") {
-    player.megaBomb();
+  if (e.code === "KeyZ" && gameEngine.gameStart) {
+    gameEngine.player.megaBomb();
+  }
+  if (e.code === "Enter" && gameEngine.gameStart === false) {
+    window.cancelAnimationFrame(gameEngine.drawGame);
+    gameEngine = new GameEngine();
+    gameEngine.gameLoop();
   }
 };
 
@@ -48,18 +53,36 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 let keyPressListener = () => {
   if (upPressed) {
-    player.moveUp();
+    gameEngine.player.moveUp();
   }
   if (downPressed) {
-    player.moveDown();
+    gameEngine.player.moveDown();
   }
   if (leftPressed) {
-    player.moveLeft();
+    gameEngine.player.moveLeft();
+    if (gameEngine.parallaxees[0].x > -4) {
+      gameEngine.parallaxees[0].x -= 0.07;
+    }
+    if (gameEngine.parallaxees[1].x > -10) {
+      gameEngine.parallaxees[1].x -= 0.15;
+    }
+    if (gameEngine.parallaxees[2].x > -13) {
+      gameEngine.parallaxees[2].x -= 0.2;
+    }
   }
   if (rightPressed) {
-    player.moveRight();
+    gameEngine.player.moveRight();
+    if (gameEngine.parallaxees[0].x < 4) {
+      gameEngine.parallaxees[0].x += 0.07;
+    }
+    if (gameEngine.parallaxees[1].x < 10) {
+      gameEngine.parallaxees[1].x += 0.15;
+    }
+    if (gameEngine.parallaxees[2].x < 13) {
+      gameEngine.parallaxees[2].x += 0.2;
+    }
   }
   if (spacePressed) {
-    player.shoot();
+    gameEngine.player.shoot();
   }
 };

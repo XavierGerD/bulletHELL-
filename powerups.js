@@ -8,60 +8,77 @@ class PowerUp {
     this.y = this.y + this.speed;
   }
   shootDouble = () => {
-    if (this.shootPattern === 4) {
-      player.damage += 0.5;
+    if (this.PowerUpType === "Dmg") {
+      gameEngine.player.damage += 0.5;
       return;
-    } else if (this.shootPattern === 5) {
-      if (player.megaBombs < player.maxMegaBombs) {
-        player.megaBombs++;
-        return;
+    } else if (this.PowerUpType === "megabomb") {
+      if (gameEngine.player.megaBombs < gameEngine.player.maxMegaBombs) {
+        gameEngine.player.megaBombs++;
       }
-    } else if (this.shootPattern === 6) {
-      player.rateOfFire -= 25;
       return;
-    } else {
+    } else if (this.PowerUpType === "RoF") {
+      gameEngine.player.rateOfFire -= 50;
+      return;
+    } else if (this.PowerUpType === "Health") {
+      if (gameEngine.player.health < 3) {
+        gameEngine.player.health++;
+      }
       return;
     }
-    player.shootPattern = this.shootPattern;
+    gameEngine.player.PowerUpType = this.PowerUpType;
   };
 }
 
 class DoubleShoot extends PowerUp {
   constructor(x, y) {
     super(x, y);
-    this.shootPattern = 2;
+    this.PowerUpType = "double";
     this.image = doubleShootPwrUp;
+    this.points = 100;
   }
 }
 
 class TripleShoot extends PowerUp {
   constructor(x, y) {
     super(x, y);
-    this.shootPattern = 3;
+    this.PowerUpType = "triple";
     this.image = tripleShootPwrUp;
+    this.points = 125;
   }
 }
 
 class IncreaseDamage extends PowerUp {
   constructor(x, y) {
     super(x, y);
-    this.shootPattern = 4;
+    this.PowerUpType = "Dmg";
     this.image = increaseDmg;
+    this.points = 75;
   }
 }
 
 class ExtraMegaBomb extends PowerUp {
   constructor(x, y) {
     super(x, y);
-    this.shootPattern = 5;
+    this.PowerUpType = "megabomb";
     this.image = megaBombPwrUp;
+    this.points = 150;
   }
 }
 
 class IncreaseRoF extends PowerUp {
   constructor(x, y) {
     super(x, y);
-    this.shootPattern = 6;
+    this.PowerUpType = "RoF";
     this.image = increaseRoF;
+    this.points = 75;
+  }
+}
+
+class HealthUp extends PowerUp {
+  constructor(x, y) {
+    super(x, y);
+    this.PowerUpType = "Health";
+    this.image = healthUp;
+    this.points = 200;
   }
 }
