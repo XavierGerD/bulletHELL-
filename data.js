@@ -42,6 +42,9 @@ parallax2.src = "Assets/Parallax2.png";
 let parallax3 = new Image();
 parallax3.src = "Assets/Parallax3.png";
 
+let swipeAnimImg = new Image();
+swipeAnimImg.src = "Assets/swipe_anim.png";
+
 //player images
 let playerImage01 = new Image();
 playerImage01.src = "Assets/PlayerShip.png";
