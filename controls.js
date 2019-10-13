@@ -31,7 +31,7 @@ let keyDownHandler = e => {
       gameEngine.gameLoop();
     };
 
-    anim = new SwipeAnim(50, 20, swipeAnimImg, newGame);
+    let anim = new SwipeAnim(50, 20, swipeAnimImg, newGame);
     anim.makeAnim();
     return;
   }

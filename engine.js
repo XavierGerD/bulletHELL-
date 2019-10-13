@@ -151,7 +151,6 @@ class GameEngine {
           this.player.flash();
         }
       }
-      this.player.loseCondition();
     });
 
     this.powerups.forEach((power, i) => {
@@ -168,6 +167,13 @@ class GameEngine {
     window.requestAnimationFrame(this.detectCollision);
   };
 
+  isGameLost = () => {
+    if (this.player.health < 1) {
+      this.gameLost();
+      return;
+    }
+  };
+
   gameLost = () => {
     this.gameStart = false;
     clearInterval(this.shootInterval);
@@ -177,11 +183,16 @@ class GameEngine {
     clearInterval(this.keyPressInterval);
     clearInterval(this.generatePowerUps);
     clearInterval(this.gameDifficultyInterval);
+    clearInterval(this.isGameLostInterval);
+    this.gameLostScreen();
+  };
+
+  gameLostScreen = () => {
     ctx.font = "20px Kanit";
     ctx.fillStyle = "white";
     ctx.fillText("You lost!", canvas.width / 2 - 45, canvas.height / 2);
     ctx.fillText("Press Enter to play again!", canvas.width / 2 - 115, canvas.height / 2 + 30);
-    window.requestAnimationFrame(this.gameLost);
+    window.requestAnimationFrame(this.gameLostScreen);
   };
 
   gameLoop() {
@@ -192,6 +203,7 @@ class GameEngine {
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
 
+    this.isGameLostInterval = setInterval(this.isGameLost, GAMESPEED);
     this.shootInterval = setInterval(this.enemiesShoot, this.fireRate);
     this.collisionInterval = setInterval(this.detectCollision, GAMESPEED);
     this.moveElements = setInterval(this.move, GAMESPEED);

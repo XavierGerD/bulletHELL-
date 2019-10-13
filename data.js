@@ -10,6 +10,7 @@ let PLAYER_SPEED = 2;
 let GAMESPEED = 10;
 let POWERUP_SIZE = 15;
 let BULLET_SIZE = 6;
+let anim;
 
 let body = document.getElementById("body");
 let canvas = document.createElement("canvas");
