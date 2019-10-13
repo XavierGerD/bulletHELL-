@@ -24,9 +24,18 @@ let keyDownHandler = e => {
     gameEngine.player.megaBomb();
   }
   if (e.code === "Enter" && gameEngine.gameStart === false) {
+    window.cancelAnimationFrame(gameEngine.gameLost);
     window.cancelAnimationFrame(gameEngine.drawGame);
-    gameEngine = new GameEngine();
-    gameEngine.gameLoop();
+
+    let newGame = () => {
+      gameEngine = new GameEngine();
+      gameEngine.player = new Player();
+      gameEngine.gameLoop();
+    };
+
+    anim = new SwipeAnim(50, 20, swipeAnimImg, newGame);
+    anim.makeAnim();
+    return;
   }
 };
 

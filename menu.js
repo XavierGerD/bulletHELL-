@@ -47,9 +47,13 @@ let keyDownHandlerMenu = e => {
   }
   if (e.code === "Enter") {
     if (gameEngine.pointerPosY === yPos1) {
-      document.removeEventListener("keydown", keyDownHandlerMenu, false);
-      gameEngine = new GameEngine();
-      gameEngine.gameLoop();
+      let gameStart = () => {
+        document.removeEventListener("keydown", keyDownHandlerMenu, false);
+        gameEngine = new GameEngine();
+        gameEngine.gameLoop();
+      };
+      anim = new SwipeAnim(50, 20, swipeAnimImg, gameStart);
+      anim.makeAnim();
     }
   }
 };

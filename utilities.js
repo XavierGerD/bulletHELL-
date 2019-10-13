@@ -40,3 +40,33 @@ let garbageCollection = () => {
     }
   });
 };
+
+class SwipeAnim {
+  constructor(elementHeight, speed, img, func) {
+    this.elementHeight = elementHeight;
+    this.x = 0;
+    this.y = -this.elementHeight;
+    this.clearX = canvas.width;
+    this.clearY = this.y + this.elementHeight / 2;
+    this.speed = speed;
+    this.img = img;
+    this.animDone = false;
+    this.nextFunc = func;
+  }
+  makeAnim = () => {
+    ctx.clearRect(0, 0, this.clearX, this.clearY);
+    ctx.drawImage(background, 0, 0, this.clearX, this.clearY, 0, 0, canvas.width, this.clearY);
+    ctx.drawImage(parallax1, 0, 0, this.clearX, this.clearY, 0, 0, canvas.width, this.clearY);
+    ctx.drawImage(parallax2, 0, 0, this.clearX, this.clearY, 0, 0, canvas.width, this.clearY);
+    ctx.drawImage(parallax3, 0, 0, this.clearX, this.clearY, 0, 0, canvas.width, this.clearY);
+    ctx.drawImage(this.img, this.x, this.y);
+    this.y = this.y + this.speed;
+    this.clearY = this.y + this.elementHeight / 2;
+    if (this.y < canvas.height) {
+      window.requestAnimationFrame(this.makeAnim);
+    }
+    if (this.y >= canvas.height) {
+      this.nextFunc();
+    }
+  };
+}

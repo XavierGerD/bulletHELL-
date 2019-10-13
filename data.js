@@ -11,12 +11,16 @@ let GAMESPEED = 10;
 let POWERUP_SIZE = 15;
 let BULLET_SIZE = 6;
 
+let anim;
+
 let body = document.getElementById("body");
 let canvas = document.createElement("canvas");
 let ctx = canvas.getContext("2d");
 canvas.height = GAME_HEIGHT + "";
 canvas.width = GAME_WIDTH + "";
 body.append(canvas);
+
+//Game images
 
 let background = new Image();
 background.src = "Assets/background.png";
@@ -41,6 +45,9 @@ parallax2.src = "Assets/Parallax2.png";
 
 let parallax3 = new Image();
 parallax3.src = "Assets/Parallax3.png";
+
+let swipeAnimImg = new Image();
+swipeAnimImg.src = "Assets/swipe_anim.png";
 
 //player images
 let playerImage01 = new Image();

@@ -23,7 +23,6 @@ class GameEngine {
     this.gameDifficultyInterval;
     this.score = 0;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
-    this.animationFrame;
   }
 
   drawGame = () => {
@@ -151,8 +150,8 @@ class GameEngine {
         if (this.player.health > 0) {
           this.player.flash();
         }
-        this.player.loseCondition();
       }
+      this.player.loseCondition();
     });
 
     this.powerups.forEach((power, i) => {
@@ -166,6 +165,7 @@ class GameEngine {
         this.powerups.splice(i, 1);
       }
     });
+    window.requestAnimationFrame(this.detectCollision);
   };
 
   gameLost = () => {
@@ -174,9 +174,10 @@ class GameEngine {
     clearInterval(this.moveElements);
     clearInterval(this.generateEnemies);
     clearInterval(this.collisionInterval);
-    clearInterval(this.keyPressInterval);
+    window.cancelAnimationFrame(this.detectCollision);
     clearInterval(this.generatePowerUps);
     clearInterval(this.gameDifficultyInterval);
+    clearInterval(this.keyPressInterval);
     ctx.font = "20px Kanit";
     ctx.fillStyle = "white";
     ctx.fillText("You lost!", canvas.width / 2 - 45, canvas.height / 2);
@@ -188,14 +189,14 @@ class GameEngine {
     enemyGeneration();
 
     window.requestAnimationFrame(this.drawGame);
+    window.requestAnimationFrame(this.detectCollision);
 
     this.shootInterval = setInterval(this.enemiesShoot, this.fireRate);
-    this.collisionInterval = setInterval(this.detectCollision, GAMESPEED);
+    this.keyPressInterval = setInterval(keyPressListener, GAMESPEED);
     this.moveElements = setInterval(this.move, GAMESPEED);
     this.generateEnemies = setInterval(enemyGeneration, this.enemySpawnRate);
     this.generatePowerUps = setInterval(powerupGeneration, this.powerUpSpawnRate);
-    this.keyPressInterval = setInterval(keyPressListener, GAMESPEED);
     this.gameDifficultyInterval = setInterval(this.gameDifficulty, 5000);
-    this.playerAnimationInterval = setInterval(this.player.animateEngine, 3git 00);
+    this.playerAnimationInterval = setInterval(this.player.animateEngine, 300);
   }
 }
