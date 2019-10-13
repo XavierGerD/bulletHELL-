@@ -196,6 +196,6 @@ class GameEngine {
     this.generatePowerUps = setInterval(powerupGeneration, this.powerUpSpawnRate);
     this.keyPressInterval = setInterval(keyPressListener, GAMESPEED);
     this.gameDifficultyInterval = setInterval(this.gameDifficulty, 5000);
-    this.playerAnimationInterval = setInterval(this.player.animateEngine, 300);
+    this.playerAnimationInterval = setInterval(this.player.animateEngine, 3git 00);
   }
 }
