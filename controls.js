@@ -26,6 +26,7 @@ let keyDownHandler = e => {
   if (e.code === "Enter" && gameEngine.gameStart === false) {
     window.cancelAnimationFrame(gameEngine.drawGame);
     let newGame = () => {
+      firstEnemy = true;
       gameEngine = new GameEngine();
       gameEngine.player = new Player();
       gameEngine.gameLoop();

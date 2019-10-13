@@ -8,6 +8,11 @@ class GameEngine {
     this.enemies = [];
     this.powerups = [];
     this.fireRate = 100;
+    this.firstEnemy = true;
+    this.lastEnemyGenerated = new Date() / 1;
+    this.difficultyInterval = new Date() / 1;
+    this.lastPowerUpGenerated = new Date() / 1;
+    this.lastShotRound = new Date() / 1;
     this.enemySpawnRate = 7000;
     this.powerUpSpawnRate = 18000;
     this.player = new Player();
@@ -74,9 +79,13 @@ class GameEngine {
   };
 
   enemiesShoot = () => {
-    this.enemies.forEach(enemy => {
-      enemy.shoot();
-    });
+    let now = new Date();
+    if (now - this.lastShotRound > this.fireRate) {
+      this.enemies.forEach(enemy => {
+        enemy.shoot();
+      });
+    }
+    this.enemiesShootFrame = window.requestAnimationFrame(this.enemiesShoot);
   };
 
   move = () => {
@@ -93,25 +102,33 @@ class GameEngine {
       power.update();
     });
     garbageCollection();
+    this.moveFrame = window.requestAnimationFrame(this.move);
   };
 
   gameDifficulty = () => {
-    if (this.enemySpawnRate > 1000) {
-      this.enemySpawnRate = this.enemySpawnRate - 200;
+    let now = new Date();
+    if (now - this.difficultyInterval > 10000) {
+      if (this.enemySpawnRate > 1000) {
+        this.enemySpawnRate = this.enemySpawnRate - 200;
+      }
+      if (this.score >= 500) {
+        this.enemyTypeModifier = 2;
+        this.powerUpTypeModifier = 3;
+      }
+      if (this.score >= 1500) {
+        this.enemyTypeModifier = 3;
+        this.powerUpTypeModifier = 4;
+      }
+      if (this.score >= 4000) {
+        this.enemyTypeModifier = 4;
+        this.powerUpTypeModifier = 5;
+      }
+    } else {
+      this.gameDifficultyFrame = window.requestAnimationFrame(this.gameDifficulty);
+      return;
     }
-
-    if (this.score >= 500) {
-      this.enemyTypeModifier = 2;
-      this.powerUpTypeModifier = 3;
-    }
-    if (this.score >= 1500) {
-      this.enemyTypeModifier = 3;
-      this.powerUpTypeModifier = 4;
-    }
-    if (this.score >= 4000) {
-      this.enemyTypeModifier = 4;
-      this.powerUpTypeModifier = 5;
-    }
+    this.difficultyInterval = new Date();
+    this.gameDifficultyFrame = window.requestAnimationFrame(this.gameDifficulty);
   };
 
   detectCollision = () => {
@@ -179,15 +196,15 @@ class GameEngine {
     this.gameStart = false;
     clearInterval(this.shootInterval);
     clearInterval(this.moveElements);
-    clearInterval(this.generateEnemies);
-    // clearInterval(this.collisionInterval);
-    // clearInterval(this.keyPressInterval);
     clearInterval(this.generatePowerUps);
-    clearInterval(this.gameDifficultyInterval);
-    // clearInterval(this.isGameLostInterval);
     window.cancelAnimationFrame(this.isGameLostFrame);
     window.cancelAnimationFrame(this.detectCollisionFrame);
     window.cancelAnimationFrame(keyPressListenerFrame);
+    window.cancelAnimationFrame(enemyGenerationFrame);
+    window.cancelAnimationFrame(this.moveFrame);
+    window.cancelAnimationFrame(this.gameDifficultyFrame);
+    window.cancelAnimationFrame(powerUpGenerationFrame);
+    window.cancelAnimationFrame(this.enemiesShootFrame);
     this.gameLostScreen();
   };
 
@@ -206,18 +223,15 @@ class GameEngine {
     window.requestAnimationFrame(this.isGameLost);
     window.requestAnimationFrame(this.detectCollision);
     window.requestAnimationFrame(keyPressListener);
+    window.requestAnimationFrame(enemyGeneration);
+    window.requestAnimationFrame(this.move);
+    window.requestAnimationFrame(this.gameDifficulty);
+    window.requestAnimationFrame(powerupGeneration);
+    window.requestAnimationFrame(this.enemiesShoot);
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
 
-    // this.isGameLostInterval = setInterval(this.isGameLost, GAMESPEED);
-    this.shootInterval = setInterval(this.enemiesShoot, this.fireRate);
-    // this.collisionInterval = setInterval(this.detectCollision, GAMESPEED);
-    this.moveElements = setInterval(this.move, GAMESPEED);
-    this.generateEnemies = setInterval(enemyGeneration, this.enemySpawnRate);
-    this.generatePowerUps = setInterval(powerupGeneration, this.powerUpSpawnRate);
-    // this.keyPressInterval = setInterval(keyPressListener, GAMESPEED);
-    this.gameDifficultyInterval = setInterval(this.gameDifficulty, 5000);
-    this.playerAnimationInterval = setInterval(this.player.animateEngine, 300);
+    this.playerAnimationInterval = setInterval(this.player.animateEngine, 100);
   }
 }
