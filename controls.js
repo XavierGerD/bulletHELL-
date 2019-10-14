@@ -40,6 +40,17 @@ let keyDownHandler = e => {
     }
     anim.makeAnim();
   }
+  if (e.code === "KeyP") {
+    if (!gameEngine.isPaused) {
+      gameEngine.pause();
+      gameEngine.isPaused = true;
+      gameEngine.gamePausedScreen();
+    } else if (gameEngine.isPaused) {
+      gameEngine.unpause();
+      gameEngine.isPaused = false;
+      window.cancelAnimationFrame(gameEngine.gamePausedScreen);
+    }
+  }
 };
 
 let keyUpHandler = e => {

@@ -10,6 +10,19 @@
       background-color: black
     }
 
+    .maintext {
+      color: white;
+      font-family: 'Kanit'
+    }
+
+    .readme {
+      display: flex;
+    }
+
+    .readmeblock {
+      padding: 20px
+    }
+
     * {
       padding: 0;
       margin: 0;
@@ -35,6 +48,26 @@
   <script src="utilities.js"></script>
   <script src="engine.js"></script>
   <script src="initialize.js"></script>
+  <div class="readme">
+    <div class="readmeblock">
+      <p class="maintext">
+        Controls<br>
+        Use arrows to move <br>
+        Z: Drop MegaBomb<br>
+        P: Pause game<br>
+      </p>
+    </div>
+    <div class="readmeblock">
+      <P class="maintext">There are five powerups<br>
+        Green arrow is more damage<br>
+        Yellow double arrows is increased rate of fire<br>
+        Two blue bullets is double shoot<br>
+        Three blue bullets is triple shoot<br>
+        Megabomb is extra MegaBomb<br>
+        Red cross is extra health
+      </P>
+    </div>
+  </div>
 </body>
 
 </html>

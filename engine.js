@@ -13,7 +13,7 @@ class GameEngine {
     this.difficultyInterval = new Date() / 1;
     this.lastPowerUpGenerated = new Date() / 1;
     this.lastShotRound = new Date() / 1;
-    this.enemySpawnRate = 9000;
+    this.enemySpawnRate = 7000;
     this.powerUpSpawnRate = 18000;
     this.player = new Player();
     this.enemyTypeModifier = 1;
@@ -28,6 +28,7 @@ class GameEngine {
     this.gameDifficultyInterval;
     this.score = 0;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
+    this.isPaused = false;
   }
 
   drawGame = () => {
@@ -192,11 +193,38 @@ class GameEngine {
     this.isGameLostFrame = window.requestAnimationFrame(this.isGameLost);
   };
 
+  pause = () => {
+    window.cancelAnimationFrame(this.isGameLostFrame);
+    window.cancelAnimationFrame(this.detectCollisionFrame);
+    window.cancelAnimationFrame(keyPressListenerFrame);
+    window.cancelAnimationFrame(enemyGenerationFrame);
+    window.cancelAnimationFrame(this.moveFrame);
+    window.cancelAnimationFrame(this.gameDifficultyFrame);
+    window.cancelAnimationFrame(powerUpGenerationFrame);
+    window.cancelAnimationFrame(this.enemiesShootFrame);
+  };
+
+  gamePausedScreen = () => {
+    ctx.font = "20px Kanit";
+    ctx.fillStyle = "white";
+    ctx.fillText("GAME PAUSED!", canvas.width / 2 - 65, canvas.height / 2);
+    window.requestAnimationFrame(this.gamePausedScreen);
+  };
+
+  unpause = () => {
+    keyPressListener();
+    window.requestAnimationFrame(this.drawGame);
+    window.requestAnimationFrame(this.isGameLost);
+    window.requestAnimationFrame(this.detectCollision);
+    window.requestAnimationFrame(this.move);
+    window.requestAnimationFrame(this.gameDifficulty);
+    window.requestAnimationFrame(powerupGeneration);
+    window.requestAnimationFrame(this.enemiesShoot);
+    window.requestAnimationFrame(enemyGeneration);
+  };
+
   gameLost = () => {
     this.gameStart = false;
-    clearInterval(this.shootInterval);
-    clearInterval(this.moveElements);
-    clearInterval(this.generatePowerUps);
     window.cancelAnimationFrame(this.isGameLostFrame);
     window.cancelAnimationFrame(this.detectCollisionFrame);
     window.cancelAnimationFrame(keyPressListenerFrame);
