@@ -40,28 +40,27 @@ let powerUpGenerationFrame;
 let powerupGeneration = () => {
   let now = new Date() / 1;
   if (now - gameEngine.lastPowerUpGenerated > gameEngine.powerUpSpawnRate) {
-    let isPowerUpSpawned = Math.floor(Math.random() + 1);
+    let isPowerUpSpawned = Math.floor(Math.random() * 2 + 1);
     if (isPowerUpSpawned === 1) {
-      let powerUpType = Math.floor(Math.random() * gameEngine.powerUpTypeModifier * 10 + 1);
-      if (powerUpType > 1 && powerUpType < 11) {
+      let powerUpType = Math.floor(Math.random() * gameEngine.powerUpTypeModifier + 1);
+      if (powerUpType === 1) {
         gameEngine.powerups.push(new IncreaseDamage(spotGeneration(), 1));
       }
-      if (powerUpType >= 11 && powerUpType < 21) {
+      if (powerUpType === 2) {
         gameEngine.powerups.push(new IncreaseRoF(spotGeneration(), 1));
       }
-      if (powerUpType >= 21 && powerUpType < 26) {
+      if (powerUpType === 3) {
         gameEngine.powerups.push(new DoubleShoot(spotGeneration(), 1));
       }
-      if (powerUpType >= 26 && powerUpType < 31) {
+      if (powerUpType === 4) {
         gameEngine.powerups.push(new TripleShoot(spotGeneration(), 1));
       }
-      if (powerUpType >= 31 && powerUpType < 34) {
+      if (powerUpType === 5) {
         gameEngine.powerups.push(new ExtraMegaBomb(spotGeneration(), 1));
       }
-      if (powerUpType >= 34 && powerUpType < 36) {
+      if (powerUpType === 6) {
         gameEngine.powerups.push(new HealthUp(spotGeneration(), 1));
       }
-      return;
     }
   } else {
     powerUpGenerationFrame = window.requestAnimationFrame(powerupGeneration);

@@ -13,7 +13,7 @@ class GameEngine {
     this.difficultyInterval = new Date() / 1;
     this.lastPowerUpGenerated = new Date() / 1;
     this.lastShotRound = new Date() / 1;
-    this.enemySpawnRate = 7000;
+    this.enemySpawnRate = 9000;
     this.powerUpSpawnRate = 18000;
     this.player = new Player();
     this.enemyTypeModifier = 1;
@@ -218,12 +218,11 @@ class GameEngine {
 
   gameLoop() {
     enemyGeneration();
+    keyPressListener();
 
     window.requestAnimationFrame(this.drawGame);
     window.requestAnimationFrame(this.isGameLost);
     window.requestAnimationFrame(this.detectCollision);
-    window.requestAnimationFrame(keyPressListener);
-    window.requestAnimationFrame(enemyGeneration);
     window.requestAnimationFrame(this.move);
     window.requestAnimationFrame(this.gameDifficulty);
     window.requestAnimationFrame(powerupGeneration);
