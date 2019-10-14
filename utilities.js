@@ -102,7 +102,7 @@ class SplitAnim {
         window.requestAnimationFrame(this.makeAnim);
       }
       if (this.topX === 0) {
-        this.phase = 3;
+        this.phase = 2;
         this.lastPhase = new Date() / 1;
       }
     }
@@ -132,6 +132,87 @@ class SplitAnim {
         window.requestAnimationFrame(this.makeAnim);
       }
       if (this.topY < 0) {
+        this.nextFunc();
+      }
+    }
+  };
+}
+
+class CutAnim {
+  constructor(elementHeight, speed, func) {
+    this.elementHeight = elementHeight;
+    this.x = canvas.width / 2 - 10;
+    this.y = -this.elementHeight;
+    this.rightX = canvas.width / 2;
+    this.leftX = canvas.width / 2;
+    this.clearX = canvas.width / 2;
+    this.clearY = canvas.height;
+    this.speed = speed;
+    this.img = cutAnimImg;
+    this.animDone = false;
+    this.nextFunc = func;
+    this.phase = 1;
+    this.animstart;
+    this.waitTime = 500;
+    this.lastPhase;
+  }
+
+  makeAnim = () => {
+    if (this.phase === 1) {
+      ctx.drawImage(this.img, this.x, this.y);
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "white";
+      ctx.moveTo(canvas.width / 2, -1);
+      ctx.lineTo(this.x + 10, this.y + 40);
+      ctx.stroke();
+      this.y = this.y + this.speed;
+      if (this.y < canvas.height + this.elementHeight) {
+        window.requestAnimationFrame(this.makeAnim);
+      }
+      if (this.y >= canvas.height + this.elementHeight) {
+        this.phase = 2;
+        this.lastPhase = new Date() / 1;
+      }
+    }
+    if (this.phase === 2) {
+      let now = new Date() / 1;
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "white";
+      ctx.moveTo(canvas.width / 2, -1);
+      ctx.lineTo(this.x + 10, this.y);
+      ctx.stroke();
+      if (now - this.lastPhase > this.waitTime) {
+        this.phase = 3;
+      } else {
+        window.requestAnimationFrame(this.makeAnim);
+      }
+    }
+    if (this.phase === 3) {
+      ctx.clearRect(this.leftX, 0, this.rightX, canvas.height);
+      ctx.drawImage(background, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
+      ctx.drawImage(parallax1, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
+      ctx.drawImage(parallax2, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
+      ctx.drawImage(parallax3, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "white";
+      ctx.moveTo(this.leftX, -1);
+      ctx.lineTo(this.leftX, canvas.height);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "white";
+      ctx.moveTo(this.rightX, -1);
+      ctx.lineTo(this.rightX, canvas.height);
+      ctx.stroke();
+      this.leftX = this.leftX - this.speed / 2;
+      this.rightX = this.rightX + this.speed / 2;
+      if (this.rightX < canvas.width) {
+        window.requestAnimationFrame(this.makeAnim);
+      }
+      if (this.rightX >= canvas.width) {
         this.nextFunc();
       }
     }

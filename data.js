@@ -54,6 +54,9 @@ splitAnimTop.src = "Assets/split_anim_top.png";
 let splitAnimBot = new Image();
 splitAnimBot.src = "Assets/split_anim_bot.png";
 
+let cutAnimImg = new Image();
+cutAnimImg.src = "Assets/cut_anim_head.png";
+
 //player images
 let playerImage01 = new Image();
 playerImage01.src = "Assets/PlayerShip.png";
