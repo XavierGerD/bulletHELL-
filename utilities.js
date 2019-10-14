@@ -42,17 +42,18 @@ let garbageCollection = () => {
 };
 
 class SwipeAnim {
-  constructor(elementHeight, speed, img, func) {
+  constructor(elementHeight, speed, func) {
     this.elementHeight = elementHeight;
     this.x = 0;
     this.y = -this.elementHeight;
     this.clearX = canvas.width;
     this.clearY = this.y + this.elementHeight / 2;
     this.speed = speed;
-    this.img = img;
+    this.img = swipeAnimImg;
     this.animDone = false;
     this.nextFunc = func;
   }
+
   makeAnim = () => {
     ctx.clearRect(0, 0, this.clearX, this.clearY);
     ctx.drawImage(background, 0, 0, this.clearX, this.clearY, 0, 0, canvas.width, this.clearY);
@@ -70,3 +71,78 @@ class SwipeAnim {
     }
   };
 }
+
+class SplitAnim {
+  constructor(elementHeight, speed, func) {
+    this.elementHeight = elementHeight;
+    this.topX = canvas.width;
+    this.topY = canvas.height / 2 - elementHeight;
+    this.botX = -300;
+    this.botY = canvas.height / 2;
+    this.clearYTop = canvas.width;
+    this.clearYBot = this.y + this.elementHeight / 2;
+    this.speed = speed;
+    this.img1 = splitAnimTop;
+    this.img2 = splitAnimBot;
+    this.animDone = false;
+    this.nextFunc = func;
+    this.phase = 1;
+    this.animstart;
+    this.waitTime = 100;
+    this.lastPhase;
+  }
+
+  makeAnim = () => {
+    if (this.phase === 1) {
+      ctx.drawImage(this.img1, this.topX, this.topY);
+      ctx.drawImage(this.img2, this.botX, this.botY);
+      this.topX = this.topX - this.speed;
+      this.botX = this.botX + this.speed;
+      if (this.topX > 0) {
+        window.requestAnimationFrame(this.makeAnim);
+      }
+      if (this.topX === 0) {
+        this.phase = 3;
+        this.lastPhase = new Date() / 1;
+      }
+    }
+    if (this.phase === 2) {
+      let now = new Date() / 1;
+      ctx.drawImage(this.img1, this.topX, this.topY);
+      ctx.drawImage(this.img2, this.botX, this.botY);
+      if (now - this.lastPhase > this.waitTime) {
+        this.phase = 3;
+      } else {
+        window.requestAnimationFrame(this.makeAnim);
+      }
+    }
+    if (this.phase === 3) {
+      ctx.clearRect(0, this.clearYTop, 0, this.clearYBot);
+      ctx.drawImage(background, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
+      ctx.drawImage(parallax1, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
+      ctx.drawImage(parallax2, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
+      ctx.drawImage(parallax3, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
+      ctx.drawImage(this.img1, this.topX, this.topY);
+      ctx.drawImage(this.img2, this.botX, this.botY);
+      this.topY = this.topY - this.speed;
+      this.botY = this.botY + this.speed;
+      this.clearYTop = this.topY + this.elementHeight;
+      this.clearYBot = this.botY;
+      if (this.topY > 0) {
+        window.requestAnimationFrame(this.makeAnim);
+      }
+      if (this.topY < 0) {
+        this.nextFunc();
+      }
+    }
+  };
+}
+
+let wait = (lastEvent, waitTime, executable) => {
+  let now = new Date() / 1;
+  if (now - lastEvent > waitTime) {
+    executable();
+  }
+  lastEvent = new Date() / 1;
+  return lastEvent;
+};

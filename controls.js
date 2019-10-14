@@ -32,9 +32,13 @@ let keyDownHandler = e => {
       gameEngine.gameLoop();
     };
 
-    let anim = new SwipeAnim(50, 20, swipeAnimImg, newGame);
+    let randomAnim = Math.floor(Math.random() * 2 + 1);
+    if (randomAnim === 1) {
+      anim = new SwipeAnim(50, 20, newGame);
+    } else if (randomAnim === 2) {
+      anim = new SplitAnim(15, 10, newGame);
+    }
     anim.makeAnim();
-    return;
   }
 };
 

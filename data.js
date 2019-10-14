@@ -43,8 +43,16 @@ parallax2.src = "Assets/Parallax2.png";
 let parallax3 = new Image();
 parallax3.src = "Assets/Parallax3.png";
 
+//anim files
+
 let swipeAnimImg = new Image();
 swipeAnimImg.src = "Assets/swipe_anim.png";
+
+let splitAnimTop = new Image();
+splitAnimTop.src = "Assets/split_anim_top.png";
+
+let splitAnimBot = new Image();
+splitAnimBot.src = "Assets/split_anim_bot.png";
 
 //player images
 let playerImage01 = new Image();

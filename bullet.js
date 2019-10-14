@@ -22,7 +22,7 @@ class playerBullet extends bullet {
     super();
     this.x = playerX;
     this.y = playerY;
-    this.speed = -2;
+    this.speed = -4;
     this.xModifier = xModifier;
     this.yModifier = yModifier;
     this.image = bulletImage02;

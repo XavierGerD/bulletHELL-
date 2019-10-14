@@ -73,16 +73,22 @@ class EnemyT2 extends Enemy {
     this.shootPatternX = SHOOTPATTERN2X;
     this.shootPatternY = SHOOTPATTERN2Y;
     this.timeout;
+    this.timeBetweenShots = 500;
+    this.lastShot = new Date() / 1;
   }
   shoot = () => {
-    let bulletSpeedModifier = 1;
-    this.xModifier = this.shootPatternX[this.shootOrder];
-    this.yModifier = this.shootPatternY[this.shootOrder];
-    this.shootOrder++;
-    if (this.shootOrder > this.shootPatternX.length) {
-      this.shootOrder = 0;
-    }
-    gameEngine.enemyBullets.push(new bulletT1(this.x, this.y, bulletSpeedModifier, this.xModifier, this.yModifier));
+    let now = new Date() / 1;
+    if (now - this.lastShot > this.timeBetweenShots) {
+      let bulletSpeedModifier = 1;
+      this.xModifier = this.shootPatternX[this.shootOrder];
+      this.yModifier = this.shootPatternY[this.shootOrder];
+      this.shootOrder++;
+      if (this.shootOrder > this.shootPatternX.length) {
+        this.shootOrder = 0;
+      }
+      gameEngine.enemyBullets.push(new bulletT1(this.x, this.y, bulletSpeedModifier, this.xModifier, this.yModifier));
+    } else return;
+    this.lastShot = new Date() / 1;
   };
 }
 

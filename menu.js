@@ -52,7 +52,12 @@ let keyDownHandlerMenu = e => {
         gameEngine = new GameEngine();
         gameEngine.gameLoop();
       };
-      anim = new SwipeAnim(50, 20, swipeAnimImg, gameStart);
+      let randomAnim = Math.floor(Math.random() * 2 + 1);
+      if (randomAnim === 1) {
+        anim = new SwipeAnim(50, 20, gameStart);
+      } else if (randomAnim === 2) {
+        anim = new SplitAnim(15, 10, gameStart);
+      }
       anim.makeAnim();
     }
   }
