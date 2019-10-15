@@ -41,11 +41,11 @@ let keyDownHandler = e => {
     anim.makeAnim();
   }
   if (e.code === "KeyP") {
-    if (!gameEngine.isPaused && this.gameStart) {
+    if (!gameEngine.isPaused && gameEngine.gameStart) {
       gameEngine.pause();
       gameEngine.isPaused = true;
       gameEngine.gamePausedScreen();
-    } else if (gameEngine.isPaused && this.gameStart) {
+    } else if (gameEngine.isPaused && gameEngine.gameStart) {
       gameEngine.unpause();
       gameEngine.isPaused = false;
       window.cancelAnimationFrame(gameEngine.gamePausedScreen);

@@ -17,8 +17,7 @@ let enemyGeneration = () => {
   }
   let now = new Date() / 1;
   if (now - gameEngine.lastEnemyGenerated > gameEngine.enemySpawnRate) {
-    let enemyType = 3;
-    // let enemyType = Math.floor(Math.random() * gameEngine.enemyTypeModifier + 1);
+    let enemyType = Math.floor(Math.random() * gameEngine.enemyTypeModifier + 1);
     if (enemyType === 1) {
       gameEngine.enemies.push(new EnemyT1(spotGeneration(), 1));
     }

@@ -14,7 +14,7 @@ class GameEngine {
     this.lastPowerUpGenerated = new Date() / 1;
     this.lastShotRound = new Date() / 1;
     this.enemySpawnRate = 5000;
-    this.powerUpSpawnRate = 18000;
+    this.powerUpSpawnRate = 10000;
     this.player = new Player();
     this.enemyTypeModifier = 1;
     this.powerUpTypeModifier = 2;
