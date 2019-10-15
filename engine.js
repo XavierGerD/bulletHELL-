@@ -13,7 +13,7 @@ class GameEngine {
     this.difficultyInterval = new Date() / 1;
     this.lastPowerUpGenerated = new Date() / 1;
     this.lastShotRound = new Date() / 1;
-    this.enemySpawnRate = 7000;
+    this.enemySpawnRate = 5000;
     this.powerUpSpawnRate = 18000;
     this.player = new Player();
     this.enemyTypeModifier = 1;
@@ -110,17 +110,17 @@ class GameEngine {
     let now = new Date();
     if (now - this.difficultyInterval > 10000) {
       if (this.enemySpawnRate > 1000) {
-        this.enemySpawnRate = this.enemySpawnRate - 200;
+        this.enemySpawnRate = this.enemySpawnRate - 50;
       }
-      if (this.score >= 500) {
+      if (this.score >= 1000) {
         this.enemyTypeModifier = 2;
         this.powerUpTypeModifier = 3;
       }
-      if (this.score >= 1500) {
+      if (this.score >= 2500) {
         this.enemyTypeModifier = 3;
         this.powerUpTypeModifier = 4;
       }
-      if (this.score >= 4000) {
+      if (this.score >= 5000) {
         this.enemyTypeModifier = 4;
         this.powerUpTypeModifier = 5;
       }

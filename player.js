@@ -39,16 +39,16 @@ class Player {
     let now = new Date() / 1;
     if (now - this.lastShot > this.rateOfFire) {
       if (this.PowerUpType === "single") {
-        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 4, this.y, 0, 1));
       }
       if (this.PowerUpType === "double") {
-        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, 0, 1));
-        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 4, this.y, 0, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 14, this.y, 0, 1));
       }
       if (this.PowerUpType === "triple") {
-        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 2, this.y, 0, 1));
-        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 5, this.y, -0.1, 1));
-        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 10, this.y, 0.1, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 4, this.y, 0, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 + 4, this.y, -0.1, 1));
+        gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 14, this.y, 0.1, 1));
       }
     } else {
       return;

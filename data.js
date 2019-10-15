@@ -9,7 +9,7 @@ let PLAYER_HEIGHT = 30;
 let PLAYER_SPEED = 2;
 let GAMESPEED = 10;
 let POWERUP_SIZE = 15;
-let BULLET_SIZE = 6;
+let BULLET_SIZE = 8;
 let anim;
 
 let body = document.getElementById("body");
