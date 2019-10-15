@@ -39,6 +39,11 @@ let garbageCollection = () => {
       gameEngine.playerBullets.splice(i, 1);
     }
   });
+  gameEngine.enemies.forEach((enemy, i) => {
+    if (enemy.y > canvas.height) {
+      gameEngine.enemies.splice(i, 1);
+    }
+  });
 };
 
 class SwipeAnim {

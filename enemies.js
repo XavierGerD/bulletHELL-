@@ -9,8 +9,6 @@ class Enemy {
     this.flashCounter = 0;
     this.explosionCounter = 0;
     this.exploded = false;
-    this.rateOfFire = 1500;
-    this.lastShot = new Date() / 1;
   }
   update(speedX, speedY) {
     this.x = this.x + speedX;
@@ -48,6 +46,8 @@ class EnemyT1 extends Enemy {
     this.explArray = enemy1Expl;
     this.shootPatternX = SHOOTPATTERN1X;
     this.shootPatternY = SHOOTPATTERN1Y;
+    this.rateOfFire = 3000;
+    this.lastShot = new Date() / 1;
   }
   shoot = () => {
     let now = new Date() / 1;
@@ -73,12 +73,12 @@ class EnemyT2 extends Enemy {
     this.shootPatternX = SHOOTPATTERN2X;
     this.shootPatternY = SHOOTPATTERN2Y;
     this.timeout;
-    this.timeBetweenShots = 500;
+    this.rateOfFire = 500;
     this.lastShot = new Date() / 1;
   }
   shoot = () => {
     let now = new Date() / 1;
-    if (now - this.lastShot > this.timeBetweenShots) {
+    if (now - this.lastShot > this.rateOfFire) {
       let bulletSpeedModifier = 1;
       this.xModifier = this.shootPatternX[this.shootOrder];
       this.yModifier = this.shootPatternY[this.shootOrder];

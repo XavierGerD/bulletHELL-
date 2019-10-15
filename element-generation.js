@@ -1,9 +1,7 @@
 let spotGeneration = () => {
   let spots = GAME_WIDTH / ENEMY1_WIDTH;
   let nextShip = Math.floor(Math.random() * spots);
-  if (gameEngine.enemies.length < MAX_ENEMIES) {
-    return nextShip * ENEMY1_WIDTH;
-  }
+  return nextShip * ENEMY1_WIDTH;
 };
 
 let enemyGenerationFrame;
@@ -15,21 +13,23 @@ let enemyGeneration = () => {
       gameEngine.firstEnemy = false;
     }
   }
-  let now = new Date() / 1;
-  if (now - gameEngine.lastEnemyGenerated > gameEngine.enemySpawnRate) {
-    let enemyType = Math.floor(Math.random() * gameEngine.enemyTypeModifier + 1);
-    if (enemyType === 1) {
-      gameEngine.enemies.push(new EnemyT1(spotGeneration(), 1));
+  if (gameEngine.enemies.length < MAX_ENEMIES) {
+    let now = new Date() / 1;
+    if (now - gameEngine.lastEnemyGenerated > gameEngine.enemySpawnRate) {
+      let enemyType = Math.floor(Math.random() * gameEngine.enemyTypeModifier + 1);
+      if (enemyType === 1) {
+        gameEngine.enemies.push(new EnemyT1(spotGeneration(), 1));
+      }
+      if (enemyType === 2) {
+        gameEngine.enemies.push(new EnemyT2(spotGeneration(), 1));
+      }
+      if (enemyType === 3) {
+        gameEngine.enemies.push(new EnemyT3(spotGeneration(), 1));
+      }
+    } else {
+      enemyGenerationFrame = window.requestAnimationFrame(enemyGeneration);
+      return;
     }
-    if (enemyType === 2) {
-      gameEngine.enemies.push(new EnemyT2(spotGeneration(), 1));
-    }
-    if (enemyType === 3) {
-      gameEngine.enemies.push(new EnemyT3(spotGeneration(), 1));
-    }
-  } else {
-    enemyGenerationFrame = window.requestAnimationFrame(enemyGeneration);
-    return;
   }
   gameEngine.lastEnemyGenerated = new Date() / 1;
   enemyGenerationFrame = window.requestAnimationFrame(enemyGeneration);
