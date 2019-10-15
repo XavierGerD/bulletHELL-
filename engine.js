@@ -13,7 +13,8 @@ class GameEngine {
     this.difficultyInterval = new Date() / 1;
     this.lastPowerUpGenerated = new Date() / 1;
     this.lastShotRound = new Date() / 1;
-    this.enemySpawnRate = 5000;
+    this.maxEnemies = 5;
+    this.enemySpawnRate = 4000;
     this.powerUpSpawnRate = 10000;
     this.player = new Player();
     this.enemyTypeModifier = 1;
@@ -115,14 +116,17 @@ class GameEngine {
       if (this.score >= 1000) {
         this.enemyTypeModifier = 2;
         this.powerUpTypeModifier = 3;
+        this.maxEnemies = 8;
       }
       if (this.score >= 2500) {
         this.enemyTypeModifier = 3;
         this.powerUpTypeModifier = 4;
+        this.maxEnemies = 11;
       }
       if (this.score >= 5000) {
         this.enemyTypeModifier = 4;
         this.powerUpTypeModifier = 5;
+        this.maxEnemies = 15;
       }
     } else {
       this.gameDifficultyFrame = window.requestAnimationFrame(this.gameDifficulty);

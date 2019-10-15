@@ -13,7 +13,7 @@ let enemyGeneration = () => {
       gameEngine.firstEnemy = false;
     }
   }
-  if (gameEngine.enemies.length < MAX_ENEMIES) {
+  if (gameEngine.enemies.length < gameEngine.maxEnemies) {
     let now = new Date() / 1;
     if (now - gameEngine.lastEnemyGenerated > gameEngine.enemySpawnRate) {
       let enemyType = Math.floor(Math.random() * gameEngine.enemyTypeModifier + 1);

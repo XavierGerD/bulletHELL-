@@ -48,6 +48,7 @@ class EnemyT1 extends Enemy {
     this.shootPatternY = SHOOTPATTERN1Y;
     this.rateOfFire = 3000;
     this.lastShot = new Date() / 1;
+    this.spot = x;
   }
   shoot = () => {
     let now = new Date() / 1;
@@ -60,6 +61,12 @@ class EnemyT1 extends Enemy {
     }
     this.lastShot = new Date() / 1;
   };
+
+  update(speedX, speedY) {
+    // this.x = this.x + speedX
+    this.x = this.spot + 15 * Math.cos(Math.PI * 2 / 30 * this.y + Math.PI * 2 / speedY * this.y);
+    this.y = this.y + speedY;
+  }
 }
 
 class EnemyT2 extends Enemy {
@@ -90,6 +97,11 @@ class EnemyT2 extends Enemy {
     } else return;
     this.lastShot = new Date() / 1;
   };
+  update(speedX, speedY) {
+    // this.x = this.x + speedX
+    this.x = this.spot + 30 * Math.cos(Math.PI * 2 / 30 * this.y + Math.PI * 2 / speedY * this.y);
+    this.y = this.y + speedY;
+  }
 }
 
 class EnemyT3 extends Enemy {
