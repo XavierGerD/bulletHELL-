@@ -103,7 +103,7 @@ let tripleShootPwrUp = new Image();
 tripleShootPwrUp.src = "Assets/tripleshoot_powerup.png";
 
 let increaseDmg = new Image();
-increaseDmg.src = "Assets/increaseDamage_powerup.png";
+increaseDmg.src = "Assets/increasedamage_powerup.png";
 
 let increaseRoF = new Image();
 increaseRoF.src = "Assets/increaseRoF_powerup.png";

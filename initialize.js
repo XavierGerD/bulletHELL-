@@ -1,3 +1,7 @@
-let gameEngine = new Menu();
+// let gameEngine = new Menu();
 
-gameEngine.launch();
+// gameEngine.launch();
+
+let gameEngine = new MapEditor();
+
+gameEngine.editorLoop();
