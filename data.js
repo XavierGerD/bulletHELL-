@@ -203,3 +203,11 @@ let enemy2flashAnim = [enemy02Flash, enemyImage02, enemy02Flash, enemyImage02, e
 
 let enemy3Expl = [enemy2Explode1, enemy2Explode2, enemy2Explode3, enemy2Explode4];
 let enemy3flashAnim = [enemy03Flash, enemyImage03, enemy03Flash, enemyImage03, enemy03Flash, enemyImage03];
+
+//editor images
+
+let addRowsImg = new Image();
+addRowsImg.src = "Assets/addRows.png";
+
+let removeRowsImg = new Image();
+removeRowsImg.src = "Assets/removeRows.png";
