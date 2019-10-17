@@ -23,10 +23,8 @@ class Menu {
     ctx.font = "30px Racing Sans One";
     ctx.fillStyle = "white";
     ctx.fillText("NEW GAME", canvas.width / 2 - 75, 454);
-    ctx.font = "30px Racing Sans One";
     ctx.fillStyle = "white";
     ctx.fillText("LEADERBOARD", canvas.width / 2 - 100, 505);
-    ctx.font = "30px Racing Sans One";
     ctx.fillStyle = "white";
     ctx.fillText("LEVEL EDITOR", canvas.width / 2 - 95, 555);
     ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);

@@ -88,6 +88,7 @@ class MapEditor {
       ctx.drawImage(this.hoveredElement.image, this.hoveredElement.x, this.hoveredElement.y);
     }
     ctx.globalAlpha = 1;
+
     //draw the selectors
     this.selectors.forEach(obj => {
       ctx.drawImage(obj.img, obj.x, obj.y);
@@ -160,11 +161,11 @@ class MapEditor {
             } else if (this.currentEnemyType === "EnemyT3") {
               this.hoveredElement = { image: enemyImage03, x: elem.x, y: elem.y };
             }
+          } else if (elem.value !== "") {
+            this.hoveredElement = "";
           }
         }
-        if (elem.value !== "") {
-          this.hoveredElement = "";
-        }
+
         if (
           event.offsetX > canvas.width - ENEMY1_WIDTH ||
           event.offsetX < ENEMY1_WIDTH ||
@@ -219,6 +220,7 @@ class MapEditor {
       let gameStart = () => {
         canvas.removeEventListener("click", this.isClicked, false);
         document.removeEventListener("keydown", this.isScrolled, false);
+        canvas.removeEventListener("mousemove", this.isHovered, false);
         gameEngine = new Menu();
         gameEngine.launch();
       };
