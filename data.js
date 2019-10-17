@@ -10,6 +10,7 @@ let GAMESPEED = 10;
 let POWERUP_SIZE = 15;
 let BULLET_SIZE = 8;
 let anim;
+let maps = [];
 
 let body = document.getElementById("body");
 let canvas = document.createElement("canvas");
@@ -29,6 +30,15 @@ newGame.src = "Assets/new_game.png";
 
 let leaderboard = new Image();
 leaderboard.src = "Assets/leaderboard.png";
+
+let levelEditorImg = new Image();
+levelEditorImg.src = "Assets/level_editor.png";
+
+let saveMap = new Image();
+saveMap.src = "Assets/save.png";
+
+let exitMap = new Image();
+exitMap.src = "Assets/exit.png";
 
 let menuPointer = new Image();
 menuPointer.src = "Assets/menu_pointer.png";

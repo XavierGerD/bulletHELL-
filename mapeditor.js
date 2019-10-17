@@ -1,9 +1,8 @@
 class MapEditor {
   constructor() {
-    this.numOfRows = 5;
+    this.numOfRows = 50;
     this.rowWidth = 8;
     this.grid = [];
-    this.arrayOfEnemies = [];
     this.levelExport = [];
     this.currentEnemyType = "";
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
@@ -44,6 +43,7 @@ class MapEditor {
       }
     ];
   }
+
   draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -56,24 +56,28 @@ class MapEditor {
     //draw the grid
     this.grid.forEach(arr => {
       arr.forEach(elem => {
-        ctx.beginPath();
-        ctx.strokeStyle = "white";
-        ctx.rect(elem.x, elem.y, ENEMY1_WIDTH, ENEMY1_HEIGHT);
-        ctx.stroke();
+        if (elem.y <= canvas.height - this.bottomOffset) {
+          ctx.beginPath();
+          ctx.strokeStyle = "white";
+          ctx.rect(elem.x, elem.y, ENEMY1_WIDTH, ENEMY1_HEIGHT);
+          ctx.stroke();
+        }
       });
     });
 
     //draw enemies placed in the grid
     this.grid.forEach(arr => {
       arr.forEach(elem => {
-        if (elem.value === "EnemyT1") {
-          ctx.drawImage(enemyImage01, elem.x, elem.y);
-        }
-        if (elem.value === "EnemyT2") {
-          ctx.drawImage(enemyImage02, elem.x, elem.y);
-        }
-        if (elem.value === "EnemyT3") {
-          ctx.drawImage(enemyImage03, elem.x, elem.y);
+        if (elem.y <= canvas.height - this.bottomOffset) {
+          if (elem.value === "EnemyT1") {
+            ctx.drawImage(enemyImage01, elem.x, elem.y);
+          }
+          if (elem.value === "EnemyT2") {
+            ctx.drawImage(enemyImage02, elem.x, elem.y);
+          }
+          if (elem.value === "EnemyT3") {
+            ctx.drawImage(enemyImage03, elem.x, elem.y);
+          }
         }
       });
     });
@@ -97,6 +101,10 @@ class MapEditor {
         ctx.stroke();
       }
     });
+
+    //draw save and exit
+    ctx.drawImage(saveMap, 220, 730);
+    ctx.drawImage(exitMap, 220, 765);
 
     window.requestAnimationFrame(this.draw);
   };
@@ -128,16 +136,18 @@ class MapEditor {
   isClicked = () => {
     this.grid.forEach(arr => {
       arr.forEach(elem => {
-        if (
-          event.offsetX > elem.x &&
-          event.offsetX < elem.x + ENEMY1_WIDTH &&
-          event.offsetY > elem.y &&
-          event.offsetY < elem.y + ENEMY1_HEIGHT
-        ) {
-          if (elem.value !== this.currentEnemyType) {
-            elem.value = this.currentEnemyType;
-          } else if (elem.value === this.currentEnemyType) {
-            elem.value = "";
+        if (elem.y <= canvas.height - this.bottomOffset) {
+          if (
+            event.offsetX > elem.x &&
+            event.offsetX < elem.x + ENEMY1_WIDTH &&
+            event.offsetY > elem.y &&
+            event.offsetY < elem.y + ENEMY1_HEIGHT
+          ) {
+            if (elem.value !== this.currentEnemyType) {
+              elem.value = this.currentEnemyType;
+            } else if (elem.value === this.currentEnemyType) {
+              elem.value = "";
+            }
           }
         }
       });
@@ -159,21 +169,77 @@ class MapEditor {
         }
       }
     });
+
+    if (event.offsetX > 220 && event.offsetX < 285 && event.offsetY > 735 && event.offsetY < 757) {
+      this.generateLevel();
+    }
+
+    if (event.offsetX > 220 && event.offsetX < 285 && event.offsetY > 765 && event.offsetY < 787) {
+      let gameStart = () => {
+        canvas.removeEventListener("click", this.isClicked, false);
+        document.removeEventListener("keydown", this.isScrolled, false);
+        gameEngine = new Menu();
+        gameEngine.launch();
+      };
+
+      let randomAnim = Math.floor(Math.random() * 3 + 1);
+      if (randomAnim === 1) {
+        anim = new SwipeAnim(50, 20, gameStart);
+      } else if (randomAnim === 2) {
+        anim = new SplitAnim(15, 10, gameStart);
+      } else if (randomAnim === 3) {
+        anim = new CutAnim(40, 60, gameStart);
+      }
+      anim.makeAnim();
+    }
+  };
+
+  isScrolled = e => {
+    if (e.code === "ArrowDown") {
+      this.grid.forEach(arr => {
+        arr.forEach(elem => {
+          elem.y += 10;
+        });
+      });
+    }
+    if (e.code === "ArrowUp") {
+      if (this.grid[0][0].y > canvas.height - this.bottomOffset) {
+        this.grid.forEach(arr => {
+          arr.forEach(elem => {
+            elem.y -= 10;
+          });
+        });
+      }
+    }
+  };
+
+  resetPos = () => {
+    while (this.grid[0][0].y > canvas.height - this.bottomOffset) {
+      this.grid.forEach(arr => {
+        arr.forEach(obj => {
+          obj.y--;
+        });
+      });
+    }
   };
 
   generateLevel = () => {
+    this.resetPos();
     this.grid.forEach(arr => {
       arr.forEach(obj => {
-        if (obj.type !== "") {
+        if (obj.value !== "") {
+          obj.y = obj.y - canvas.height + this.bottomOffset - ENEMY1_HEIGHT;
           this.levelExport.push(obj);
         }
       });
     });
+    maps.push(this.levelExport);
   };
 
   editorLoop = () => {
     this.generateRows();
     canvas.addEventListener("click", this.isClicked, false);
+    document.addEventListener("keydown", this.isScrolled, false);
     window.requestAnimationFrame(this.draw);
   };
 }
