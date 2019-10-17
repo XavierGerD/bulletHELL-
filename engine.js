@@ -33,7 +33,17 @@ class GameEngine {
   }
 
   initalizeMap = () => {
-    map;
+    maps[0].forEach(enemy => {
+      if (enemy.value === "EnemyT1") {
+        this.enemies.push(new EnemyT1(enemy.x, enemy.y));
+      }
+      if (enemy.value === "EnemyT2") {
+        this.enemies.push(new EnemyT2(enemy.x, enemy.y));
+      }
+      if (enemy.value === "EnemyT3") {
+        this.enemies.push(new EnemyT3(enemy.x, enemy.y));
+      }
+    });
   };
 
   drawGame = () => {
@@ -88,7 +98,9 @@ class GameEngine {
     let now = new Date();
     if (now - this.lastShotRound > this.fireRate) {
       this.enemies.forEach(enemy => {
-        enemy.shoot();
+        if (enemy.y > 0) {
+          enemy.shoot();
+        }
       });
     }
     this.enemiesShootFrame = window.requestAnimationFrame(this.enemiesShoot);
@@ -253,7 +265,8 @@ class GameEngine {
   };
 
   gameLoop() {
-    enemyGeneration();
+    this.initalizeMap();
+    // enemyGeneration();
     keyPressListener();
 
     window.requestAnimationFrame(this.drawGame);

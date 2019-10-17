@@ -84,8 +84,8 @@ class SplitAnim {
     this.topY = canvas.height / 2 - elementHeight;
     this.botX = -300;
     this.botY = canvas.height / 2;
-    this.clearYTop = canvas.width;
-    this.clearYBot = this.y + this.elementHeight / 2;
+    this.clearYTop = canvas.height / 2 - 1;
+    this.clearYBot = canvas.height / 2;
     this.speed = speed;
     this.img1 = splitAnimTop;
     this.img2 = splitAnimBot;
@@ -122,7 +122,7 @@ class SplitAnim {
       }
     }
     if (this.phase === 3) {
-      ctx.clearRect(0, this.clearYTop, 0, this.clearYBot);
+      ctx.clearRect(0, this.clearYTop, canvas.width, this.clearYBot - this.clearYTop);
       ctx.drawImage(background, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
       ctx.drawImage(parallax1, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
       ctx.drawImage(parallax2, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);

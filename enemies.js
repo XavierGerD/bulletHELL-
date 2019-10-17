@@ -1,8 +1,8 @@
 class Enemy {
-  constructor(x, enemySpeedModifier) {
-    this.y = -ENEMY1_HEIGHT;
+  constructor(x, y) {
+    this.y = y;
     this.x = x;
-    this.speed = 0.5 + enemySpeedModifier;
+    this.speed = 0.5;
     this.xModifier = 0;
     this.yModifier = 1;
     this.shootOrder = 0;
@@ -37,8 +37,8 @@ class Enemy {
 }
 
 class EnemyT1 extends Enemy {
-  constructor(x, enemySpeedModifier) {
-    super(x, enemySpeedModifier);
+  constructor(x, y) {
+    super(x, y);
     this.image = enemyImage01;
     this.health = 2;
     this.points = 50;
@@ -70,8 +70,8 @@ class EnemyT1 extends Enemy {
 }
 
 class EnemyT2 extends Enemy {
-  constructor(x, y, enemySpeedModifier) {
-    super(x, enemySpeedModifier);
+  constructor(x, y) {
+    super(x, y);
     this.image = enemyImage02;
     this.health = 4;
     this.points = 75;
@@ -105,8 +105,8 @@ class EnemyT2 extends Enemy {
 }
 
 class EnemyT3 extends Enemy {
-  constructor(x, y, enemySpeedModifier) {
-    super(x, enemySpeedModifier);
+  constructor(x, y) {
+    super(x, y);
     this.image = enemyImage03;
     this.health = 8;
     this.points = 125;
