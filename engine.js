@@ -225,9 +225,9 @@ class GameEngine {
   };
 
   gamePausedScreen = () => {
-    ctx.font = "20px Kanit";
+    ctx.font = "30px Racing Sans One";
     ctx.fillStyle = "white";
-    ctx.fillText("GAME PAUSED!", canvas.width / 2 - 65, canvas.height / 2);
+    ctx.fillText("GAME PAUSED", canvas.width / 2 - 95, canvas.height / 2);
     window.requestAnimationFrame(this.gamePausedScreen);
   };
 
@@ -257,16 +257,15 @@ class GameEngine {
   };
 
   gameLostScreen = () => {
-    ctx.font = "20px Kanit";
+    ctx.font = "30px Racing Sans One";
     ctx.fillStyle = "white";
-    ctx.fillText("You lost!", canvas.width / 2 - 45, canvas.height / 2);
-    ctx.fillText("Press Enter to play again!", canvas.width / 2 - 115, canvas.height / 2 + 30);
+    ctx.fillText("YOU LOST!", canvas.width / 2 - 65, canvas.height / 2);
+    ctx.fillText("PRESS ENTER", canvas.width / 2 - 85, canvas.height / 2 + 50);
     window.requestAnimationFrame(this.gameLostScreen);
   };
 
   gameLoop() {
     this.initalizeMap();
-    // enemyGeneration();
     keyPressListener();
 
     window.requestAnimationFrame(this.drawGame);

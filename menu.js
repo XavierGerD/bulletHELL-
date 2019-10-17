@@ -3,11 +3,8 @@ class Menu {
     this.x = 0;
     this.y = 0;
     this.titleImg = titleScreen;
-    this.newGame = newGame;
     this.background = background;
     this.menuPointer = menuPointer;
-    this.leaderboard = leaderboard;
-    this.levelEditor = levelEditorImg;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
     this.pointerPosY = 432;
     this.pointerPosX = canvas.width / 2 - 100;
@@ -22,9 +19,16 @@ class Menu {
       ctx.drawImage(paral.image, paral.x, paral.y);
     });
     ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 300);
-    ctx.drawImage(this.newGame, canvas.width / 2 - 100, 430);
-    ctx.drawImage(this.leaderboard, canvas.width / 2 - 100, 480);
-    ctx.drawImage(this.levelEditor, canvas.width / 2 - 100, 530);
+
+    ctx.font = "30px Racing Sans One";
+    ctx.fillStyle = "white";
+    ctx.fillText("NEW GAME", canvas.width / 2 - 75, 454);
+    ctx.font = "30px Racing Sans One";
+    ctx.fillStyle = "white";
+    ctx.fillText("LEADERBOARD", canvas.width / 2 - 100, 505);
+    ctx.font = "30px Racing Sans One";
+    ctx.fillStyle = "white";
+    ctx.fillText("LEVEL EDITOR", canvas.width / 2 - 95, 555);
     ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
     window.requestAnimationFrame(this.draw);
   };
@@ -40,7 +44,7 @@ class Menu {
     }
     if (this.pointerSelection === 3) {
       this.pointerPosY = 532;
-      this.pointerPosX = canvas.width / 2 - 123;
+      this.pointerPosX = canvas.width / 2 - 118;
     }
     window.requestAnimationFrame(this.pointerPosition);
   };
@@ -77,7 +81,7 @@ let keyDownHandlerMenu = e => {
       } else if (randomAnim === 2) {
         anim = new SplitAnim(15, 10, gameStart);
       } else if (randomAnim === 3) {
-        anim = new CutAnim(40, 60, gameStart);
+        anim = new CutAnim(40, 40, gameStart);
       }
       anim.makeAnim();
     }
@@ -95,7 +99,7 @@ let keyDownHandlerMenu = e => {
       } else if (randomAnim === 2) {
         anim = new SplitAnim(15, 10, gameStart);
       } else if (randomAnim === 3) {
-        anim = new CutAnim(40, 60, gameStart);
+        anim = new CutAnim(40, 40, gameStart);
       }
       anim.makeAnim();
     }

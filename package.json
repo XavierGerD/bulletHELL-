@@ -1,0 +1,25 @@
+{
+  "name": "bullet-hell",
+  "version": "1.0.0",
+  "description": "Star Blaster",
+  "main": "bullet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XavierGerD/bulletHELL-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XavierGerD/bulletHELL-/issues"
+  },
+  "homepage": "https://github.com/XavierGerD/bulletHELL-#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "multer": "^1.4.2"
+  }
+}

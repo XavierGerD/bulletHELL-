@@ -25,15 +25,6 @@ background.src = "Assets/background.png";
 let titleScreen = new Image();
 titleScreen.src = "Assets/Title.png";
 
-let newGame = new Image();
-newGame.src = "Assets/new_game.png";
-
-let leaderboard = new Image();
-leaderboard.src = "Assets/leaderboard.png";
-
-let levelEditorImg = new Image();
-levelEditorImg.src = "Assets/level_editor.png";
-
 let saveMap = new Image();
 saveMap.src = "Assets/save.png";
 

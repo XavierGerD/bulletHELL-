@@ -7,6 +7,7 @@ class MapEditor {
     this.currentEnemyType = "";
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
     this.bottomOffset = 240;
+    this.hoveredElement = "";
     this.selectors = [
       {
         type: "EnemyT1",
@@ -81,7 +82,12 @@ class MapEditor {
         }
       });
     });
-
+    ctx.globalAlpha = 0.5;
+    //draw the hover
+    if (this.hoveredElement !== "") {
+      ctx.drawImage(this.hoveredElement.image, this.hoveredElement.x, this.hoveredElement.y);
+    }
+    ctx.globalAlpha = 1;
     //draw the selectors
     this.selectors.forEach(obj => {
       ctx.drawImage(obj.img, obj.x, obj.y);
@@ -103,8 +109,12 @@ class MapEditor {
     });
 
     //draw save and exit
-    ctx.drawImage(saveMap, 220, 730);
-    ctx.drawImage(exitMap, 220, 765);
+    ctx.font = "30px Racing Sans One";
+    ctx.fillStyle = "white";
+    ctx.fillText("SAVE", 220, 755);
+    ctx.font = "30px Racing Sans One";
+    ctx.fillStyle = "white";
+    ctx.fillText("EXIT", 220, 785);
 
     window.requestAnimationFrame(this.draw);
   };
@@ -133,21 +143,52 @@ class MapEditor {
     this.numOfRows--;
   };
 
+  isHovered = event => {
+    this.grid.forEach(arr => {
+      arr.forEach(elem => {
+        if (
+          event.offsetX > elem.x &&
+          event.offsetX < elem.x + ENEMY1_WIDTH &&
+          event.offsetY > elem.y &&
+          event.offsetY < elem.y + ENEMY1_HEIGHT
+        ) {
+          if (elem.value === "") {
+            if (this.currentEnemyType === "EnemyT1") {
+              this.hoveredElement = { image: enemyImage01, x: elem.x, y: elem.y };
+            } else if (this.currentEnemyType === "EnemyT2") {
+              this.hoveredElement = { image: enemyImage02, x: elem.x, y: elem.y };
+            } else if (this.currentEnemyType === "EnemyT3") {
+              this.hoveredElement = { image: enemyImage03, x: elem.x, y: elem.y };
+            }
+          }
+        }
+        if (elem.value !== "") {
+          this.hoveredElement = "";
+        }
+        if (
+          event.offsetX > canvas.width - ENEMY1_WIDTH ||
+          event.offsetX < ENEMY1_WIDTH ||
+          event.offsetY > canvas.height - this.bottomOffset + ENEMY1_HEIGHT
+        ) {
+          this.hoveredElement = "";
+        }
+      });
+    });
+  };
+
   isClicked = () => {
     this.grid.forEach(arr => {
       arr.forEach(elem => {
-        if (elem.y <= canvas.height - this.bottomOffset) {
-          if (
-            event.offsetX > elem.x &&
-            event.offsetX < elem.x + ENEMY1_WIDTH &&
-            event.offsetY > elem.y &&
-            event.offsetY < elem.y + ENEMY1_HEIGHT
-          ) {
-            if (elem.value !== this.currentEnemyType) {
-              elem.value = this.currentEnemyType;
-            } else if (elem.value === this.currentEnemyType) {
-              elem.value = "";
-            }
+        if (
+          event.offsetX > elem.x &&
+          event.offsetX < elem.x + ENEMY1_WIDTH &&
+          event.offsetY > elem.y &&
+          event.offsetY < elem.y + ENEMY1_HEIGHT
+        ) {
+          if (elem.value !== this.currentEnemyType) {
+            elem.value = this.currentEnemyType;
+          } else if (elem.value === this.currentEnemyType) {
+            elem.value = "";
           }
         }
       });
@@ -198,7 +239,7 @@ class MapEditor {
     if (e.code === "ArrowDown") {
       this.grid.forEach(arr => {
         arr.forEach(elem => {
-          elem.y += 10;
+          elem.y += ENEMY1_HEIGHT;
         });
       });
     }
@@ -206,7 +247,7 @@ class MapEditor {
       if (this.grid[0][0].y > canvas.height - this.bottomOffset) {
         this.grid.forEach(arr => {
           arr.forEach(elem => {
-            elem.y -= 10;
+            elem.y -= ENEMY1_HEIGHT;
           });
         });
       }
@@ -239,6 +280,7 @@ class MapEditor {
   editorLoop = () => {
     this.generateRows();
     canvas.addEventListener("click", this.isClicked, false);
+    canvas.addEventListener("mousemove", this.isHovered, false);
     document.addEventListener("keydown", this.isScrolled, false);
     window.requestAnimationFrame(this.draw);
   };

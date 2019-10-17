@@ -123,10 +123,50 @@ class SplitAnim {
     }
     if (this.phase === 3) {
       ctx.clearRect(0, this.clearYTop, canvas.width, this.clearYBot - this.clearYTop);
-      ctx.drawImage(background, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
-      ctx.drawImage(parallax1, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
-      ctx.drawImage(parallax2, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
-      ctx.drawImage(parallax3, 0, this.topY + 15, canvas.width, this.botY, 0, this.topY + 15, canvas.width, this.botY);
+      ctx.drawImage(
+        background,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop
+      );
+      ctx.drawImage(
+        parallax1,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop
+      );
+      ctx.drawImage(
+        parallax2,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop
+      );
+      ctx.drawImage(
+        parallax3,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop,
+        0,
+        this.clearYTop,
+        canvas.width,
+        this.clearYBot - this.clearYTop
+      );
       ctx.drawImage(this.img1, this.topX, this.topY);
       ctx.drawImage(this.img2, this.botX, this.botY);
       this.topY = this.topY - this.speed;
@@ -195,11 +235,51 @@ class CutAnim {
       }
     }
     if (this.phase === 3) {
-      ctx.clearRect(this.leftX, 0, this.rightX, canvas.height);
-      ctx.drawImage(background, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
-      ctx.drawImage(parallax1, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
-      ctx.drawImage(parallax2, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
-      ctx.drawImage(parallax3, this.leftX, 0, this.rightX, canvas.height, this.leftX, 0, this.rightX, canvas.height);
+      ctx.clearRect(this.leftX, 0, this.rightX - this.leftX, canvas.height);
+      ctx.drawImage(
+        background,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height
+      );
+      ctx.drawImage(
+        parallax1,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height
+      );
+      ctx.drawImage(
+        parallax2,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height
+      );
+      ctx.drawImage(
+        parallax3,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height,
+        this.leftX,
+        0,
+        this.rightX - this.leftX,
+        canvas.height
+      );
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.strokeStyle = "white";

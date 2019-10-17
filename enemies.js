@@ -82,6 +82,7 @@ class EnemyT2 extends Enemy {
     this.timeout;
     this.rateOfFire = 500;
     this.lastShot = new Date() / 1;
+    this.spot = x;
   }
   shoot = () => {
     let now = new Date() / 1;
@@ -98,8 +99,7 @@ class EnemyT2 extends Enemy {
     this.lastShot = new Date() / 1;
   };
   update(speedX, speedY) {
-    // this.x = this.x + speedX
-    this.x = this.spot + 30 * Math.cos(Math.PI * 2 / 30 * this.y + Math.PI * 2 / speedY * this.y);
+    this.x = this.spot + 30 * Math.cos(Math.PI * 2 / 60 * this.y + Math.PI * 2 / speedY * this.y);
     this.y = this.y + speedY;
   }
 }
