@@ -33,7 +33,7 @@ class GameEngine {
   }
 
   initalizeMap = () => {
-    maps[0].forEach(enemy => {
+    customMaps[0].forEach(enemy => {
       if (enemy.value === "EnemyT1") {
         this.enemies.push(new EnemyT1(enemy.x, enemy.y));
       }
@@ -71,8 +71,6 @@ class GameEngine {
       ctx.drawImage(power.image, power.x, power.y);
     });
 
-    ctx.drawImage(this.player.image, this.player.x, this.player.y);
-
     ctx.drawImage(this.player.engineImage, this.player.x + PLAYER_WIDTH / 2 - 2, this.player.y + PLAYER_HEIGHT - 5);
 
     ctx.drawImage(healthbar, canvas.width - 44, canvas.height - 24);
@@ -89,8 +87,15 @@ class GameEngine {
     ctx.font = "20px Kanit";
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + this.score, 10, 20);
-
     playAreaFlash();
+
+    // ctx.globalCompositeOperation = "ligther";
+    ctx.drawImage(this.player.image, this.player.x, this.player.y);
+    // ctx.globalAlpha = 0.5;
+    // ctx.drawImage(overlay, this.player.x, this.player.y);
+    // ctx.globalAlpha = 1;
+    // ctx.globalCompositeOperation = "source-over";
+
     window.requestAnimationFrame(this.drawGame);
   };
 
@@ -110,14 +115,11 @@ class GameEngine {
     this.enemies.forEach(enemy => {
       enemy.update(0, ENEMY1_SPEED);
     });
-    this.enemyBullets.forEach(bullet => {
-      bullet.update();
-    });
-    this.playerBullets.forEach(bullet => {
-      bullet.update();
-    });
-    this.powerups.forEach(power => {
-      power.update();
+    let arrays = [this.enemyBullets, this.playerBullets, this.powerups];
+    arrays.forEach(array => {
+      array.forEach(element => {
+        element.update();
+      });
     });
     garbageCollection();
     this.moveFrame = window.requestAnimationFrame(this.move);
@@ -214,6 +216,8 @@ class GameEngine {
   };
 
   pause = () => {
+    this.pauseMenu = new PauseMenu();
+    this.pauseMenu.launch();
     window.cancelAnimationFrame(this.isGameLostFrame);
     window.cancelAnimationFrame(this.detectCollisionFrame);
     window.cancelAnimationFrame(keyPressListenerFrame);
@@ -224,14 +228,8 @@ class GameEngine {
     window.cancelAnimationFrame(this.enemiesShootFrame);
   };
 
-  gamePausedScreen = () => {
-    ctx.font = "30px Racing Sans One";
-    ctx.fillStyle = "white";
-    ctx.fillText("GAME PAUSED", canvas.width / 2 - 95, canvas.height / 2);
-    window.requestAnimationFrame(this.gamePausedScreen);
-  };
-
   unpause = () => {
+    delete this.pauseMenu;
     keyPressListener();
     window.requestAnimationFrame(this.drawGame);
     window.requestAnimationFrame(this.isGameLost);

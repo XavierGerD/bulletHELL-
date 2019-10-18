@@ -312,3 +312,15 @@ let wait = (lastEvent, waitTime, executable) => {
   lastEvent = new Date() / 1;
   return lastEvent;
 };
+
+let getRandomAnim = func => {
+  let randomAnim = Math.floor(Math.random() * 3 + 1);
+  if (randomAnim === 1) {
+    anim = new SwipeAnim(50, 20, func);
+  } else if (randomAnim === 2) {
+    anim = new SplitAnim(15, 10, func);
+  } else if (randomAnim === 3) {
+    anim = new CutAnim(40, 40, func);
+  }
+  anim.makeAnim();
+};

@@ -6,100 +6,231 @@ class Menu {
     this.background = background;
     this.menuPointer = menuPointer;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
-    this.pointerPosY = 432;
     this.pointerPosX = canvas.width / 2 - 100;
     this.menuPointer = menuPointer;
-    this.pointerSelection = 1;
+    this.pointerSelection = 0;
   }
 
   draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(this.background, 0, 0);
+    ctx.drawImage(background, 0, 0);
     this.parallaxees.forEach(paral => {
       ctx.drawImage(paral.image, paral.x, paral.y);
     });
     ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 300);
 
-    ctx.font = "30px Racing Sans One";
-    ctx.fillStyle = "white";
-    ctx.fillText("NEW GAME", canvas.width / 2 - 75, 454);
-    ctx.fillStyle = "white";
-    ctx.fillText("LEADERBOARD", canvas.width / 2 - 100, 505);
-    ctx.fillStyle = "white";
-    ctx.fillText("LEVEL EDITOR", canvas.width / 2 - 95, 555);
+    this.keys.forEach((key, i) => {
+      ctx.font = "30px Racing Sans One";
+      ctx.fillStyle = "white";
+      ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
+    });
     ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
     window.requestAnimationFrame(this.draw);
   };
 
   pointerPosition = () => {
-    if (this.pointerSelection === 1) {
-      this.pointerPosY = 432;
-      this.pointerPosX = canvas.width / 2 - 100;
-    }
-    if (this.pointerSelection === 2) {
-      this.pointerPosY = 482;
-      this.pointerPosX = canvas.width / 2 - 125;
-    }
-    if (this.pointerSelection === 3) {
-      this.pointerPosY = 532;
-      this.pointerPosX = canvas.width / 2 - 118;
-    }
+    this.keys = Object.keys(this.menuItems);
+    this.pointerPosX = this.menuItems[this.keys[this.pointerSelection]].posX - 25;
+    this.pointerPosY = this.menuItems[this.keys[this.pointerSelection]].posY - 25;
     window.requestAnimationFrame(this.pointerPosition);
   };
 
   launch = () => {
     this.pointerPosition();
-    document.addEventListener("keydown", keyDownHandlerMenu, false);
-    window.requestAnimationFrame(this.draw);
+    document.addEventListener("keydown", this.keyDownHandlerMenu, false);
+    this.draw();
+  };
+
+  moveArrows = e => {
+    if (e.code === "ArrowUp") {
+      if (gameEngine.pointerSelection > 0) {
+        gameEngine.pointerSelection--;
+      }
+    }
+    if (e.code === "ArrowDown") {
+      if (gameEngine.pointerSelection < this.keys.length - 1) {
+        gameEngine.pointerSelection++;
+      }
+    }
   };
 }
 
-let keyDownHandlerMenu = e => {
-  if (e.code === "ArrowUp") {
-    if (gameEngine.pointerSelection > 1) {
-      gameEngine.pointerSelection--;
-    }
-  }
-  if (e.code === "ArrowDown") {
-    if (gameEngine.pointerSelection < 3) {
-      gameEngine.pointerSelection++;
-    }
-  }
-  if (e.code === "Enter") {
-    if (gameEngine.pointerSelection === 1) {
-      let gameStart = () => {
-        document.removeEventListener("keydown", keyDownHandlerMenu, false);
-        gameEngine = new GameEngine();
-        gameEngine.gameLoop();
-      };
-
-      let randomAnim = Math.floor(Math.random() * 3 + 1);
-      if (randomAnim === 1) {
-        anim = new SwipeAnim(50, 20, gameStart);
-      } else if (randomAnim === 2) {
-        anim = new SplitAnim(15, 10, gameStart);
-      } else if (randomAnim === 3) {
-        anim = new CutAnim(40, 40, gameStart);
+class MainMenu extends Menu {
+  constructor() {
+    super();
+    this.menuItems = {
+      campaign: {
+        value: "NEW GAME",
+        posX: canvas.width / 2 - 75,
+        posY: 455
+      },
+      continue: {
+        value: "LEADERBOARDS",
+        posX: canvas.width / 2 - 100,
+        posY: 505
+      },
+      custom: {
+        value: "LEVEL EDITOR",
+        posX: canvas.width / 2 - 87,
+        posY: 555
       }
-      anim.makeAnim();
-    }
-
-    if (gameEngine.pointerSelection === 3) {
-      let gameStart = () => {
-        document.removeEventListener("keydown", keyDownHandlerMenu, false);
-        gameEngine = new MapEditor();
-        gameEngine.editorLoop();
-      };
-
-      let randomAnim = Math.floor(Math.random() * 3 + 1);
-      if (randomAnim === 1) {
-        anim = new SwipeAnim(50, 20, gameStart);
-      } else if (randomAnim === 2) {
-        anim = new SplitAnim(15, 10, gameStart);
-      } else if (randomAnim === 3) {
-        anim = new CutAnim(40, 40, gameStart);
-      }
-      anim.makeAnim();
-    }
+      // ,
+      // options: {
+      //   value: "OPTIONS",
+      //   posX: canvas.width / 2 - 65,
+      //   posY: 605
+      // }
+      // ,
+      // main: {
+      //   value: "MAIN MENU",
+      //   posX: canvas.width / 2 - 80,
+      //   posY: 655
+      // }
+    };
+    this.keys = Object.keys(this.menuItems);
   }
-};
+
+  keyDownHandlerMenu = e => {
+    this.moveArrows(e);
+    if (e.code === "Enter") {
+      let gameStart = () => {
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+        if (gameEngine.pointerSelection === 0) {
+          gameEngine = new LevelSelector();
+          gameEngine.launch();
+        }
+        if (gameEngine.pointerSelection === 2) {
+          gameEngine = new MapEditor();
+          gameEngine.editorLoop();
+        }
+      };
+      getRandomAnim(gameStart);
+    }
+  };
+}
+
+class LevelSelector extends Menu {
+  constructor() {
+    super();
+    this.menuItems = {
+      campaign: {
+        value: "CAMPAIGN",
+        posX: canvas.width / 2 - 75,
+        posY: 455
+      },
+      continue: {
+        value: "CONTINUE",
+        posX: canvas.width / 2 - 70,
+        posY: 505
+      },
+      custom: {
+        value: "CUSTOM MAP",
+        posX: canvas.width / 2 - 102,
+        posY: 555
+      },
+      options: {
+        value: "OPTIONS",
+        posX: canvas.width / 2 - 65,
+        posY: 605
+      },
+      main: {
+        value: "MAIN MENU",
+        posX: canvas.width / 2 - 80,
+        posY: 655
+      }
+    };
+    this.keys = Object.keys(this.menuItems);
+  }
+
+  keyDownHandlerMenu = e => {
+    this.moveArrows(e);
+    if (e.code === "Enter") {
+      let gameStart = () => {
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+        if (gameEngine.pointerSelection === 0) {
+          gameEngine = new GameEngine();
+          gameEngine.gameLoop();
+        }
+        if (gameEngine.pointerSelection === 1) {
+          gameEngine = new GameEngine();
+          gameEngine.gameLoop();
+        }
+        if (gameEngine.pointerSelection === 2) return;
+        if (gameEngine.pointerSelection === 3) return;
+        if (gameEngine.pointerSelection === 4) {
+          gameEngine = new MainMenu();
+          gameEngine.launch();
+        }
+      };
+      getRandomAnim(gameStart);
+    }
+  };
+}
+
+class PauseMenu extends Menu {
+  constructor() {
+    super();
+    this.menuItems = {
+      resume: {
+        value: "RESUME",
+        posX: canvas.width / 2 - 75,
+        posY: 455
+      },
+      restart: {
+        value: "RESTART LEVEL",
+        posX: canvas.width / 2 - 70,
+        posY: 505
+      },
+      options: {
+        value: "OPTIONS",
+        posX: canvas.width / 2 - 65,
+        posY: 605
+      },
+      main: {
+        value: "MAIN MENU",
+        posX: canvas.width / 2 - 80,
+        posY: 655
+      }
+    };
+    this.keys = Object.keys(this.menuItems);
+  }
+
+  draw = () => {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 300);
+
+    this.keys.forEach((key, i) => {
+      ctx.font = "30px Racing Sans One";
+      ctx.fillStyle = "white";
+      ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
+    });
+
+    ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
+    window.requestAnimationFrame(this.draw);
+  };
+
+  keyDownHandlerMenu = e => {
+    this.moveArrows(e);
+    if (e.code === "Enter") {
+      let gameStart = () => {
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+        if (gameEngine.pointerSelection === 0) {
+          gameEngine = new GameEngine();
+          gameEngine.gameLoop();
+        }
+        if (gameEngine.pointerSelection === 1) {
+          gameEngine = new GameEngine();
+          gameEngine.gameLoop();
+        }
+        if (gameEngine.pointerSelection === 2) return;
+        if (gameEngine.pointerSelection === 3) return;
+        if (gameEngine.pointerSelection === 4) {
+          gameEngine = new MainMenu();
+          gameEngine.launch();
+        }
+      };
+      getRandomAnim(gameStart);
+    }
+  };
+}

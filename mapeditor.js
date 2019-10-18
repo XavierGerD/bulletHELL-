@@ -221,19 +221,10 @@ class MapEditor {
         canvas.removeEventListener("click", this.isClicked, false);
         document.removeEventListener("keydown", this.isScrolled, false);
         canvas.removeEventListener("mousemove", this.isHovered, false);
-        gameEngine = new Menu();
+        gameEngine = new MainMenu();
         gameEngine.launch();
       };
-
-      let randomAnim = Math.floor(Math.random() * 3 + 1);
-      if (randomAnim === 1) {
-        anim = new SwipeAnim(50, 20, gameStart);
-      } else if (randomAnim === 2) {
-        anim = new SplitAnim(15, 10, gameStart);
-      } else if (randomAnim === 3) {
-        anim = new CutAnim(40, 60, gameStart);
-      }
-      anim.makeAnim();
+      getRandomAnim(gameStart);
     }
   };
 
@@ -276,7 +267,7 @@ class MapEditor {
         }
       });
     });
-    maps.push(this.levelExport);
+    customMaps.push(this.levelExport);
   };
 
   editorLoop = () => {

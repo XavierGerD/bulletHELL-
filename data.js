@@ -11,6 +11,7 @@ let POWERUP_SIZE = 15;
 let BULLET_SIZE = 8;
 let anim;
 let maps = [];
+let customMaps = [];
 
 let body = document.getElementById("body");
 let canvas = document.createElement("canvas");
@@ -42,6 +43,9 @@ parallax2.src = "Assets/Parallax2.png";
 
 let parallax3 = new Image();
 parallax3.src = "Assets/Parallax3.png";
+
+let overlay = new Image();
+overlay.src = "Assets/overlay.png";
 
 //anim files
 
@@ -208,7 +212,7 @@ let enemy3flashAnim = [enemy03Flash, enemyImage03, enemy03Flash, enemyImage03, e
 //editor images
 
 let addRowsImg = new Image();
-addRowsImg.src = "Assets/addRows.png";
+addRowsImg.src = "Assets/addrows.png";
 
 let removeRowsImg = new Image();
 removeRowsImg.src = "Assets/removeRows.png";
