@@ -43,13 +43,13 @@ class Menu {
 
   moveArrows = e => {
     if (e.code === "ArrowUp") {
-      if (gameEngine.pointerSelection > 0) {
-        gameEngine.pointerSelection--;
+      if (this.pointerSelection > 0) {
+        this.pointerSelection--;
       }
     }
     if (e.code === "ArrowDown") {
-      if (gameEngine.pointerSelection < this.keys.length - 1) {
-        gameEngine.pointerSelection++;
+      if (this.pointerSelection < this.keys.length - 1) {
+        this.pointerSelection++;
       }
     }
   };
@@ -95,11 +95,11 @@ class MainMenu extends Menu {
     if (e.code === "Enter") {
       let gameStart = () => {
         document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
-        if (gameEngine.pointerSelection === 0) {
+        if (this.pointerSelection === 0) {
           gameEngine = new LevelSelector();
           gameEngine.launch();
         }
-        if (gameEngine.pointerSelection === 2) {
+        if (this.pointerSelection === 2) {
           gameEngine = new MapEditor();
           gameEngine.editorLoop();
         }
@@ -125,7 +125,7 @@ class LevelSelector extends Menu {
       },
       custom: {
         value: "CUSTOM MAP",
-        posX: canvas.width / 2 - 102,
+        posX: canvas.width / 2 - 92,
         posY: 555
       },
       options: {
@@ -147,15 +147,21 @@ class LevelSelector extends Menu {
     if (e.code === "Enter") {
       let gameStart = () => {
         document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
-        if (gameEngine.pointerSelection === 0) {
+        if (this.pointerSelection === 0) {
           gameEngine = new GameEngine();
+          gameEngine.initalizeMap();
           gameEngine.gameLoop();
         }
-        if (gameEngine.pointerSelection === 1) {
+        if (this.pointerSelection === 1) {
           gameEngine = new GameEngine();
+          gameEngine.initalizeMap();
           gameEngine.gameLoop();
         }
-        if (gameEngine.pointerSelection === 2) return;
+        if (this.pointerSelection === 2) {
+          gameEngine = new GameEngine();
+          gameEngine.initalizeCustomMap(0);
+          gameEngine.gameLoop();
+        }
         if (gameEngine.pointerSelection === 3) return;
         if (gameEngine.pointerSelection === 4) {
           gameEngine = new MainMenu();
@@ -173,23 +179,23 @@ class PauseMenu extends Menu {
     this.menuItems = {
       resume: {
         value: "RESUME",
-        posX: canvas.width / 2 - 75,
+        posX: canvas.width / 2 - 55,
         posY: 455
       },
       restart: {
         value: "RESTART LEVEL",
-        posX: canvas.width / 2 - 70,
+        posX: canvas.width / 2 - 90,
         posY: 505
       },
       options: {
         value: "OPTIONS",
         posX: canvas.width / 2 - 65,
-        posY: 605
+        posY: 555
       },
       main: {
         value: "MAIN MENU",
         posX: canvas.width / 2 - 80,
-        posY: 655
+        posY: 605
       }
     };
     this.keys = Object.keys(this.menuItems);
@@ -198,7 +204,7 @@ class PauseMenu extends Menu {
   draw = () => {
     ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 300);
+    ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 200);
 
     this.keys.forEach((key, i) => {
       ctx.font = "30px Racing Sans One";
@@ -215,17 +221,18 @@ class PauseMenu extends Menu {
     if (e.code === "Enter") {
       let gameStart = () => {
         document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
-        if (gameEngine.pointerSelection === 0) {
+        if (this.pointerSelection === 0) {
+          gameEngine.unpause();
+          gameEngine.isPaused = false;
+          window.cancelAnimationFrame(gameEngine.gamePausedScreen);
+        }
+        if (this.pointerSelection === 1) {
           gameEngine = new GameEngine();
+          gameEngine.initalizeMap();
           gameEngine.gameLoop();
         }
-        if (gameEngine.pointerSelection === 1) {
-          gameEngine = new GameEngine();
-          gameEngine.gameLoop();
-        }
-        if (gameEngine.pointerSelection === 2) return;
-        if (gameEngine.pointerSelection === 3) return;
-        if (gameEngine.pointerSelection === 4) {
+        if (this.pointerSelection === 2) return;
+        if (this.pointerSelection === 3) {
           gameEngine = new MainMenu();
           gameEngine.launch();
         }
@@ -234,3 +241,5 @@ class PauseMenu extends Menu {
     }
   };
 }
+
+class OptionsMenu extends Menu {}

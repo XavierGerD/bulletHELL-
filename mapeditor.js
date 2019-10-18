@@ -261,9 +261,11 @@ class MapEditor {
     this.resetPos();
     this.grid.forEach(arr => {
       arr.forEach(obj => {
-        if (obj.value !== "") {
-          obj.y = obj.y - canvas.height + this.bottomOffset - ENEMY1_HEIGHT;
-          this.levelExport.push(obj);
+        let temp = Object.assign({}, obj);
+        if (temp.value !== "") {
+          temp.y = temp.y - canvas.height + this.bottomOffset - ENEMY1_HEIGHT;
+          this.levelExport.push(temp);
+          obj.value = "";
         }
       });
     });

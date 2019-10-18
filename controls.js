@@ -5,22 +5,22 @@ let rightPressed = false;
 let spacePressed = false;
 
 let keyDownHandler = e => {
-  if (e.code === "ArrowUp") {
+  if (e.code === keyMapping.up) {
     upPressed = true;
   }
-  if (e.code === "ArrowDown") {
+  if (e.code === keyMapping.down) {
     downPressed = true;
   }
-  if (e.code === "ArrowLeft") {
+  if (e.code === keyMapping.left) {
     leftPressed = true;
   }
-  if (e.code === "ArrowRight") {
+  if (e.code === keyMapping.right) {
     rightPressed = true;
   }
-  if (e.code === "Space") {
+  if (e.code === keyMapping.shoot) {
     spacePressed = true;
   }
-  if (e.code === "KeyZ" && gameEngine.gameStart) {
+  if (e.code === keyMapping.bomb && gameEngine.gameStart) {
     gameEngine.player.megaBomb();
   }
   if (e.code === "Enter" && gameEngine.gameStart === false) {
@@ -33,7 +33,7 @@ let keyDownHandler = e => {
     };
     getRandomAnim(newGame);
   }
-  if (e.code === "KeyP") {
+  if (e.code === keyMapping.pause) {
     if (!gameEngine.isPaused && gameEngine.gameStart) {
       gameEngine.pause();
       gameEngine.isPaused = true;

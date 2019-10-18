@@ -10,8 +10,63 @@ let GAMESPEED = 10;
 let POWERUP_SIZE = 15;
 let BULLET_SIZE = 8;
 let anim;
-let maps = [];
+let maps = [
+  [
+    { x: 60, y: -30, value: "EnemyT1" },
+    { x: 210, y: -90, value: "EnemyT1" },
+    { x: 60, y: -150, value: "EnemyT1" },
+    { x: 30, y: -180, value: "EnemyT3" },
+    { x: 90, y: -180, value: "EnemyT1" },
+    { x: 210, y: -210, value: "EnemyT1" },
+    { x: 60, y: -300, value: "EnemyT1" },
+    { x: 90, y: -330, value: "EnemyT1" },
+    { x: 60, y: -360, value: "EnemyT1" },
+    { x: 210, y: -360, value: "EnemyT1" },
+    { x: 180, y: -390, value: "EnemyT1" },
+    { x: 90, y: -420, value: "EnemyT2" },
+    { x: 30, y: -450, value: "EnemyT3" },
+    { x: 60, y: -480, value: "EnemyT1" },
+    { x: 210, y: -480, value: "EnemyT1" },
+    { x: 120, y: -510, value: "EnemyT2" },
+    { x: 150, y: -510, value: "EnemyT2" },
+    { x: 60, y: -630, value: "EnemyT1" },
+    { x: 210, y: -630, value: "EnemyT1" },
+    { x: 120, y: -690, value: "EnemyT3" },
+    { x: 60, y: -750, value: "EnemyT1" },
+    { x: 60, y: -780, value: "EnemyT3" },
+    { x: 90, y: -780, value: "EnemyT1" },
+    { x: 120, y: -810, value: "EnemyT1" },
+    { x: 150, y: -840, value: "EnemyT1" },
+    { x: 210, y: -900, value: "EnemyT1" },
+    { x: 90, y: -960, value: "EnemyT2" },
+    { x: 180, y: -960, value: "EnemyT2" },
+    { x: 150, y: -1050, value: "EnemyT3" },
+    { x: 60, y: -1140, value: "EnemyT1" },
+    { x: 90, y: -1140, value: "EnemyT1" },
+    { x: 180, y: -1140, value: "EnemyT1" },
+    { x: 210, y: -1140, value: "EnemyT1" },
+    { x: 120, y: -1230, value: "EnemyT1" },
+    { x: 150, y: -1230, value: "EnemyT1" },
+    { x: 60, y: -1290, value: "EnemyT1" },
+    { x: 210, y: -1290, value: "EnemyT1" },
+    { x: 90, y: -1320, value: "EnemyT1" },
+    { x: 180, y: -1320, value: "EnemyT1" },
+    { x: 120, y: -1440, value: "EnemyT3" },
+    { x: 150, y: -1440, value: "EnemyT3" },
+    { x: 90, y: -1470, value: "EnemyT2" },
+    { x: 180, y: -1470, value: "EnemyT2" }
+  ]
+];
 let customMaps = [];
+let keyMapping = {
+  up: "ArrowUp",
+  down: "ArrowDown",
+  left: "ArrowLeft",
+  right: "ArrowRight",
+  shoot: "Space",
+  bomb: "KeyZ",
+  pause: "KeyP"
+};
 
 let body = document.getElementById("body");
 let canvas = document.createElement("canvas");

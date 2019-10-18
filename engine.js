@@ -33,7 +33,21 @@ class GameEngine {
   }
 
   initalizeMap = () => {
-    customMaps[0].forEach(enemy => {
+    maps[0].forEach(enemy => {
+      if (enemy.value === "EnemyT1") {
+        this.enemies.push(new EnemyT1(enemy.x, enemy.y));
+      }
+      if (enemy.value === "EnemyT2") {
+        this.enemies.push(new EnemyT2(enemy.x, enemy.y));
+      }
+      if (enemy.value === "EnemyT3") {
+        this.enemies.push(new EnemyT3(enemy.x, enemy.y));
+      }
+    });
+  };
+
+  initalizeCustomMap = selector => {
+    customMaps[selector].forEach(enemy => {
       if (enemy.value === "EnemyT1") {
         this.enemies.push(new EnemyT1(enemy.x, enemy.y));
       }
@@ -216,12 +230,13 @@ class GameEngine {
   };
 
   pause = () => {
+    // document.removeEventListener("keydown", keyDownHandler, false);
     this.pauseMenu = new PauseMenu();
     this.pauseMenu.launch();
     window.cancelAnimationFrame(this.isGameLostFrame);
     window.cancelAnimationFrame(this.detectCollisionFrame);
     window.cancelAnimationFrame(keyPressListenerFrame);
-    window.cancelAnimationFrame(enemyGenerationFrame);
+    // window.cancelAnimationFrame(enemyGenerationFrame);
     window.cancelAnimationFrame(this.moveFrame);
     window.cancelAnimationFrame(this.gameDifficultyFrame);
     window.cancelAnimationFrame(powerUpGenerationFrame);
@@ -238,7 +253,7 @@ class GameEngine {
     window.requestAnimationFrame(this.gameDifficulty);
     window.requestAnimationFrame(powerupGeneration);
     window.requestAnimationFrame(this.enemiesShoot);
-    window.requestAnimationFrame(enemyGeneration);
+    // window.requestAnimationFrame(enemyGeneration);
   };
 
   gameLost = () => {
@@ -246,7 +261,7 @@ class GameEngine {
     window.cancelAnimationFrame(this.isGameLostFrame);
     window.cancelAnimationFrame(this.detectCollisionFrame);
     window.cancelAnimationFrame(keyPressListenerFrame);
-    window.cancelAnimationFrame(enemyGenerationFrame);
+    // window.cancelAnimationFrame(enemyGenerationFrame);
     window.cancelAnimationFrame(this.moveFrame);
     window.cancelAnimationFrame(this.gameDifficultyFrame);
     window.cancelAnimationFrame(powerUpGenerationFrame);
@@ -263,7 +278,6 @@ class GameEngine {
   };
 
   gameLoop() {
-    this.initalizeMap();
     keyPressListener();
 
     window.requestAnimationFrame(this.drawGame);
