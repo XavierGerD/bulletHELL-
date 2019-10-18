@@ -29,10 +29,12 @@ class GameEngine {
     this.gameDifficultyInterval;
     this.score = 0;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
+    this.movingStars = new Parallax(0, 0, movingStars);
+    this.movingStars2 = new Parallax(0, -canvas.height * 2, movingStars);
     this.isPaused = false;
     this.options;
   }
-
+  // new Parallax(0, 0, parallax3)
   initalizeMap = () => {
     maps[0].forEach(enemy => {
       if (enemy.value === "EnemyT1") {
@@ -69,6 +71,9 @@ class GameEngine {
     this.parallaxees.forEach(paral => {
       ctx.drawImage(paral.image, paral.x, paral.y);
     });
+
+    ctx.drawImage(this.movingStars.image, this.movingStars.x, this.movingStars.y);
+    ctx.drawImage(this.movingStars2.image, this.movingStars2.x, this.movingStars2.y);
 
     this.enemyBullets.forEach(bullet => {
       ctx.drawImage(bullet.image, bullet.x, bullet.y);
@@ -136,6 +141,17 @@ class GameEngine {
         element.update();
       });
     });
+
+    this.movingStars.y += 7;
+    this.movingStars2.y += 7;
+
+    if (this.movingStars.y > canvas.height) {
+      this.movingStars.y = -canvas.height * 2;
+    }
+    if (this.movingStars2.y > canvas.height) {
+      this.movingStars2.y = -canvas.height * 2;
+    }
+
     garbageCollection();
     this.moveFrame = window.requestAnimationFrame(this.move);
   };

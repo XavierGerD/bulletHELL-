@@ -46,19 +46,19 @@ let keyDownHandler = e => {
 };
 
 let keyUpHandler = e => {
-  if (e.code === "ArrowUp") {
+  if (e.code === keyMapping.up) {
     upPressed = false;
   }
-  if (e.code === "ArrowDown") {
+  if (e.code === keyMapping.down) {
     downPressed = false;
   }
-  if (e.code === "ArrowLeft") {
+  if (e.code === keyMapping.left) {
     leftPressed = false;
   }
-  if (e.code === "ArrowRight") {
+  if (e.code === keyMapping.right) {
     rightPressed = false;
   }
-  if (e.code === "Space") {
+  if (e.code === keyMapping.shoot) {
     spacePressed = false;
   }
 };
@@ -83,9 +83,9 @@ let keyPressListener = () => {
     if (gameEngine.parallaxees[1].x > -10) {
       gameEngine.parallaxees[1].x -= 0.15;
     }
-    if (gameEngine.parallaxees[2].x > -13) {
-      gameEngine.parallaxees[2].x -= 0.2;
-    }
+    // if (gameEngine.parallaxees[2].x > -13) {
+    //   gameEngine.parallaxees[2].x -= 0.2;
+    // }
   }
   if (rightPressed) {
     gameEngine.player.moveRight();
@@ -95,9 +95,9 @@ let keyPressListener = () => {
     if (gameEngine.parallaxees[1].x < 10) {
       gameEngine.parallaxees[1].x += 0.15;
     }
-    if (gameEngine.parallaxees[2].x < 13) {
-      gameEngine.parallaxees[2].x += 0.2;
-    }
+    // if (gameEngine.parallaxees[2].x < 13) {
+    //   gameEngine.parallaxees[2].x += 0.2;
+    // }
   }
   if (spacePressed) {
     gameEngine.player.shoot();

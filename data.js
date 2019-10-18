@@ -99,6 +99,9 @@ parallax2.src = "Assets/Parallax2.png";
 let parallax3 = new Image();
 parallax3.src = "Assets/Parallax3.png";
 
+let movingStars = new Image();
+movingStars.src = "Assets/movingstars.png";
+
 let overlay = new Image();
 overlay.src = "Assets/overlay.png";
 

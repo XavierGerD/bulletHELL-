@@ -252,6 +252,7 @@ class OptionsMenu extends Menu {
   constructor(game) {
     super(game);
     this.isComingFromGame = game;
+    this.newKey = "";
     this.menuItems = {
       up: {
         value: "UP: " + keyMapping.up,
@@ -323,32 +324,61 @@ class OptionsMenu extends Menu {
   };
 
   returnNewKeyCode = e => {
-    keyMapping.up = e;
+    keyMapping[this.newKey] = e.code;
+    this.menuItems[this.newKey].value = this.newKey.toUpperCase() + ": " + keyMapping[this.newKey];
     document.removeEventListener("keydown", this.returnNewKeyCode, false);
+    document.addEventListener("keydown", this.keyDownHandlerMenu, false);
+    this.newKey = "";
   };
 
   keyDownHandlerMenu = e => {
     this.moveArrows(e);
     if (e.code === "Enter") {
       if (this.pointerSelection === 0) {
+        this.newKey = "up";
+        document.addEventListener("keydown", this.returnNewKeyCode, false);
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       }
-      document.addEventListener("keydown", this.returnNewKeyCode, false);
-      document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
-
       if (this.pointerSelection === 1) {
+        this.newKey = "down";
+        document.addEventListener("keydown", this.returnNewKeyCode, false);
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       }
-      keyMapping.down = this.returnNewKeyCode();
+
       if (this.pointerSelection === 2) {
+        this.newKey = "left";
+        document.addEventListener("keydown", this.returnNewKeyCode, false);
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       }
-      keyMapping.left = this.returnNewKeyCode();
+
       if (this.pointerSelection === 3) {
+        this.newKey = "right";
+        document.addEventListener("keydown", this.returnNewKeyCode, false);
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       }
-      keyMapping.right = this.returnNewKeyCode();
+
       if (this.pointerSelection === 4) {
+        this.newKey = "shoot";
+        document.addEventListener("keydown", this.returnNewKeyCode, false);
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       }
       if (this.pointerSelection === 5) {
+        this.newKey = "bomb";
+        document.addEventListener("keydown", this.returnNewKeyCode, false);
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       }
       if (this.pointerSelection === 6) {
+        this.newKey = "pause";
+        document.addEventListener("keydown", this.returnNewKeyCode, false);
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+      }
+      if (this.pointerSelection === 7) {
+        let gameStart = () => {
+          document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+          gameEngine = new MainMenu();
+          gameEngine.launch();
+        };
+        getRandomAnim(gameStart);
       }
     }
   };
