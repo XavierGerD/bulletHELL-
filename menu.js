@@ -19,7 +19,7 @@ class Menu {
     });
     ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 300);
 
-    this.keys.forEach((key, i) => {
+    this.keys.forEach(key => {
       ctx.font = "30px Racing Sans One";
       ctx.fillStyle = "white";
       ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
@@ -162,7 +162,10 @@ class LevelSelector extends Menu {
           gameEngine.initalizeCustomMap(0);
           gameEngine.gameLoop();
         }
-        if (gameEngine.pointerSelection === 3) return;
+        if (gameEngine.pointerSelection === 3) {
+          gameEngine = new OptionsMenu(false);
+          gameEngine.launch();
+        }
         if (gameEngine.pointerSelection === 4) {
           gameEngine = new MainMenu();
           gameEngine.launch();
@@ -206,7 +209,7 @@ class PauseMenu extends Menu {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 200);
 
-    this.keys.forEach((key, i) => {
+    this.keys.forEach(key => {
       ctx.font = "30px Racing Sans One";
       ctx.fillStyle = "white";
       ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
@@ -231,7 +234,10 @@ class PauseMenu extends Menu {
           gameEngine.initalizeMap();
           gameEngine.gameLoop();
         }
-        if (this.pointerSelection === 2) return;
+        if (this.pointerSelection === 2) {
+          gameEngine.options = new OptionsMenu(true);
+          gameEngine.options.launch();
+        }
         if (this.pointerSelection === 3) {
           gameEngine = new MainMenu();
           gameEngine.launch();
@@ -242,4 +248,108 @@ class PauseMenu extends Menu {
   };
 }
 
-class OptionsMenu extends Menu {}
+class OptionsMenu extends Menu {
+  constructor(game) {
+    super(game);
+    this.isComingFromGame = game;
+    this.menuItems = {
+      up: {
+        value: "UP: " + keyMapping.up,
+        posX: 40,
+        posY: 55
+      },
+      down: {
+        value: "DOWN: " + keyMapping.down,
+        posX: 40,
+        posY: 105
+      },
+      left: {
+        value: "LEFT: " + keyMapping.left,
+        posX: 40,
+        posY: 155
+      },
+      right: {
+        value: "RIGHT: " + keyMapping.right,
+        posX: 40,
+        posY: 205
+      },
+      shoot: {
+        value: "SHOOT: " + keyMapping.shoot,
+        posX: 40,
+        posY: 255
+      },
+      bomb: {
+        value: "MEGABOMB: " + keyMapping.bomb,
+        posX: 40,
+        posY: 305
+      },
+      pause: {
+        value: "PAUSE: " + keyMapping.pause,
+        posX: 40,
+        posY: 355
+      },
+      return: {
+        value: "",
+        posX: 40,
+        posY: canvas.height - 40
+      }
+    };
+    this.keys = Object.keys(this.menuItems);
+  }
+
+  returnTo = () => {
+    if (this.isComingFromGame) {
+      this.menuItems.return.value = "RESUME";
+    } else {
+      this.menuItems.return.value = "MAIN MENU";
+    }
+  };
+
+  draw = () => {
+    this.returnTo();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(background, 0, 0);
+    this.parallaxees.forEach(paral => {
+      ctx.drawImage(paral.image, paral.x, paral.y);
+    });
+    this.keys.forEach(key => {
+      ctx.font = "25px Racing Sans One";
+      ctx.fillStyle = "white";
+      ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
+    });
+    ctx.fillText(this.menuItems.return.value, this.menuItems.return.posX, this.menuItems.return.posY);
+    ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
+    window.requestAnimationFrame(this.draw);
+  };
+
+  returnNewKeyCode = e => {
+    keyMapping.up = e;
+    document.removeEventListener("keydown", this.returnNewKeyCode, false);
+  };
+
+  keyDownHandlerMenu = e => {
+    this.moveArrows(e);
+    if (e.code === "Enter") {
+      if (this.pointerSelection === 0) {
+      }
+      document.addEventListener("keydown", this.returnNewKeyCode, false);
+      document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+
+      if (this.pointerSelection === 1) {
+      }
+      keyMapping.down = this.returnNewKeyCode();
+      if (this.pointerSelection === 2) {
+      }
+      keyMapping.left = this.returnNewKeyCode();
+      if (this.pointerSelection === 3) {
+      }
+      keyMapping.right = this.returnNewKeyCode();
+      if (this.pointerSelection === 4) {
+      }
+      if (this.pointerSelection === 5) {
+      }
+      if (this.pointerSelection === 6) {
+      }
+    }
+  };
+}

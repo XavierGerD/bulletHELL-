@@ -30,6 +30,7 @@ class GameEngine {
     this.score = 0;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
     this.isPaused = false;
+    this.options;
   }
 
   initalizeMap = () => {
