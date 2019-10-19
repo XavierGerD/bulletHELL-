@@ -274,3 +274,7 @@ addRowsImg.src = "Assets/addrows.png";
 
 let removeRowsImg = new Image();
 removeRowsImg.src = "Assets/removeRows.png";
+
+//music
+
+let mainTheme = new Howl({ src: "Assets/Music/Main_theme.mp3" });

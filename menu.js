@@ -39,6 +39,7 @@ class Menu {
     this.pointerPosition();
     document.addEventListener("keydown", this.keyDownHandlerMenu, false);
     this.draw();
+    mainTheme.play();
   };
 
   moveArrows = e => {
@@ -88,6 +89,7 @@ class MainMenu extends Menu {
       // }
     };
     this.keys = Object.keys(this.menuItems);
+    // this.mainTheme = mainTheme;
   }
 
   keyDownHandlerMenu = e => {
@@ -140,6 +142,7 @@ class LevelSelector extends Menu {
       }
     };
     this.keys = Object.keys(this.menuItems);
+    this.mainTheme = mainTheme;
   }
 
   keyDownHandlerMenu = e => {
