@@ -70,6 +70,7 @@ let keyMapping = {
 
 let body = document.getElementById("body");
 let canvas = document.createElement("canvas");
+canvas.id = "id";
 let ctx = canvas.getContext("2d");
 canvas.height = GAME_HEIGHT + "";
 canvas.width = GAME_WIDTH + "";

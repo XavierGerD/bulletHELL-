@@ -29,6 +29,7 @@ let keyDownHandler = e => {
       firstEnemy = true;
       gameEngine = new GameEngine();
       gameEngine.player = new Player();
+      gameEngine.initalizeMap();
       gameEngine.gameLoop();
     };
     getRandomAnim(newGame);
