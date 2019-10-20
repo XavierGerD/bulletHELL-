@@ -1,4 +1,4 @@
-let gameEngine = new MainMenu();
+let gameEngine = new Start();
 
 gameEngine.launch();
 

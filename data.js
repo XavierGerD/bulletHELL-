@@ -10,6 +10,7 @@ let GAMESPEED = 10;
 let POWERUP_SIZE = 15;
 let BULLET_SIZE = 8;
 let anim;
+let introAnim = false;
 let maps = [
   [
     { x: 60, y: -30, value: "EnemyT1" },
@@ -68,13 +69,14 @@ let keyMapping = {
   pause: "KeyP"
 };
 
-let body = document.getElementById("body");
-let canvas = document.createElement("canvas");
-canvas.id = "id";
+// let body = document.getElementById("body");
+let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-canvas.height = GAME_HEIGHT + "";
-canvas.width = GAME_WIDTH + "";
-body.append(canvas);
+// canvas.height = GAME_HEIGHT + "";
+// canvas.width = GAME_WIDTH + "";
+// body.append(canvas);
+// let gl = document.getElementById("gl");
+// let glctx = gl.getContext("webgl");
 
 let background = new Image();
 background.src = "Assets/background.png";

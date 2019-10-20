@@ -109,12 +109,7 @@ class GameEngine {
     ctx.fillText("Score: " + this.score, 10, 20);
     playAreaFlash();
 
-    // ctx.globalCompositeOperation = "ligther";
     ctx.drawImage(this.player.image, this.player.x, this.player.y);
-    // ctx.globalAlpha = 0.5;
-    // ctx.drawImage(overlay, this.player.x, this.player.y);
-    // ctx.globalAlpha = 1;
-    // ctx.globalCompositeOperation = "source-over";
 
     window.requestAnimationFrame(this.drawGame);
   };

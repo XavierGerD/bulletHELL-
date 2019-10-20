@@ -39,18 +39,57 @@ class Menu {
     this.pointerPosition();
     document.addEventListener("keydown", this.keyDownHandlerMenu, false);
     this.draw();
-    mainTheme.play();
   };
 
   moveArrows = e => {
     if (e.code === "ArrowUp") {
-      if (this.pointerSelection > 0) {
-        this.pointerSelection--;
+      this.pointerSelection--;
+      if (this.pointerSelection < 0) {
+        this.pointerSelection = this.keys.length - 1;
       }
     }
     if (e.code === "ArrowDown") {
-      if (this.pointerSelection < this.keys.length - 1) {
-        this.pointerSelection++;
+      this.pointerSelection++;
+      if (this.pointerSelection > this.keys.length - 1) {
+        this.pointerSelection = 0;
+      }
+    }
+  };
+}
+
+class Start extends Menu {
+  constructor() {
+    super();
+    this.menuItems = {
+      start: {
+        value: "PRESS ENTER",
+        posX: canvas.width / 2 - 85,
+        posY: canvas.height / 2
+      }
+    };
+  }
+
+  draw = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(background, 0, 0);
+    this.parallaxees.forEach(paral => {
+      ctx.drawImage(paral.image, paral.x, paral.y);
+    });
+    this.keys.forEach(key => {
+      ctx.font = "30px Racing Sans One";
+      ctx.fillStyle = "white";
+      ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
+    });
+    ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
+    window.requestAnimationFrame(this.draw);
+  };
+
+  keyDownHandlerMenu = e => {
+    if (e.code === "Enter") {
+      document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+      if (this.pointerSelection === 0) {
+        gameEngine = new MainMenu();
+        gameEngine.launch();
       }
     }
   };
@@ -65,9 +104,9 @@ class MainMenu extends Menu {
         posX: canvas.width / 2 - 75,
         posY: 455
       },
-      continue: {
+      leaderboards: {
         value: "LEADERBOARDS",
-        posX: canvas.width / 2 - 100,
+        posX: canvas.width / 2 - 105,
         posY: 505
       },
       custom: {
@@ -75,21 +114,11 @@ class MainMenu extends Menu {
         posX: canvas.width / 2 - 87,
         posY: 555
       }
-      // ,
-      // options: {
-      //   value: "OPTIONS",
-      //   posX: canvas.width / 2 - 65,
-      //   posY: 605
-      // }
-      // ,
-      // main: {
-      //   value: "MAIN MENU",
-      //   posX: canvas.width / 2 - 80,
-      //   posY: 655
-      // }
     };
     this.keys = Object.keys(this.menuItems);
-    // this.mainTheme = mainTheme;
+    this.mainTheme = mainTheme;
+    this.isStarted = false;
+    this.titleY = 300;
   }
 
   keyDownHandlerMenu = e => {
@@ -107,6 +136,101 @@ class MainMenu extends Menu {
         }
       };
       getRandomAnim(gameStart);
+    }
+  };
+
+  draw = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(background, 0, 0);
+    this.parallaxees.forEach(paral => {
+      ctx.drawImage(paral.image, paral.x, paral.y);
+    });
+    ctx.drawImage(this.titleImg, canvas.width / 2 - 100, this.titleY);
+
+    this.keys.forEach(key => {
+      ctx.font = "30px Racing Sans One";
+      ctx.fillStyle = "white";
+      ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
+    });
+    ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
+    window.requestAnimationFrame(this.draw);
+  };
+
+  moveTitle = () => {
+    if (this.titleY < 300) {
+      this.titleY += 0.7;
+    }
+    if (this.titleY >= 300) {
+      this.menuItems.campaign.posX += 2;
+      this.menuItems.leaderboards.posX -= 2.27;
+      this.menuItems.custom.posX += 2.17;
+    }
+    if (this.menuItems.campaign.posX >= canvas.width / 2 - 75) {
+      introAnim = true;
+      window.cancelAnimationFrame(this.moveTitle);
+      window.removeEventListener("keydown", this.skipAnim, false);
+      this.launch();
+      return;
+    }
+    window.requestAnimationFrame(this.moveTitle);
+  };
+
+  skipAnim = e => {
+    if (this.titleY > -140) {
+      if (e.code === "Enter") {
+        this.menuItems = {
+          campaign: {
+            value: "NEW GAME",
+            posX: canvas.width / 2 - 75,
+            posY: 455
+          },
+          leaderboards: {
+            value: "LEADERBOARDS",
+            posX: canvas.width / 2 - 105,
+            posY: 505
+          },
+          custom: {
+            value: "LEVEL EDITOR",
+            posX: canvas.width / 2 - 87,
+            posY: 555
+          }
+        };
+        this.titleY = 300;
+        introAnim = true;
+        this.launch();
+        window.removeEventListener("keydown", this.skipAnim, false);
+      }
+    }
+  };
+
+  launch = () => {
+    if (!introAnim) {
+      this.menuItems = {
+        campaign: {
+          value: "NEW GAME",
+          posX: -150,
+          posY: 455
+        },
+        leaderboards: {
+          value: "LEADERBOARDS",
+          posX: canvas.width,
+          posY: 505
+        },
+        custom: {
+          value: "LEVEL EDITOR",
+          posX: -185,
+          posY: 555
+        }
+      };
+      this.titleY = -150;
+      this.moveTitle();
+      this.draw();
+      window.addEventListener("keydown", this.skipAnim, false);
+      mainTheme.play();
+    } else {
+      this.pointerPosition();
+      document.addEventListener("keydown", this.keyDownHandlerMenu, false);
+      this.draw();
     }
   };
 }
@@ -142,7 +266,7 @@ class LevelSelector extends Menu {
       }
     };
     this.keys = Object.keys(this.menuItems);
-    this.mainTheme = mainTheme;
+    // this.mainTheme = mainTheme;
   }
 
   keyDownHandlerMenu = e => {
@@ -225,20 +349,22 @@ class PauseMenu extends Menu {
   keyDownHandlerMenu = e => {
     this.moveArrows(e);
     if (e.code === "Enter") {
+      if (this.pointerSelection === 0) {
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
+        gameEngine.unpause();
+        gameEngine.isPaused = false;
+        window.cancelAnimationFrame(gameEngine.gamePausedScreen);
+        return;
+      }
       let gameStart = () => {
         document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
-        if (this.pointerSelection === 0) {
-          gameEngine.unpause();
-          gameEngine.isPaused = false;
-          window.cancelAnimationFrame(gameEngine.gamePausedScreen);
-        }
         if (this.pointerSelection === 1) {
           gameEngine = new GameEngine();
           gameEngine.initalizeMap();
           gameEngine.gameLoop();
         }
         if (this.pointerSelection === 2) {
-          gameEngine.options = new OptionsMenu(true);
+          gameEngine.options = new OptionsMenu();
           gameEngine.options.launch();
         }
         if (this.pointerSelection === 3) {
@@ -252,9 +378,8 @@ class PauseMenu extends Menu {
 }
 
 class OptionsMenu extends Menu {
-  constructor(game) {
-    super(game);
-    this.isComingFromGame = game;
+  constructor() {
+    super();
     this.newKey = "";
     this.menuItems = {
       up: {
@@ -302,7 +427,7 @@ class OptionsMenu extends Menu {
   }
 
   returnTo = () => {
-    if (this.isComingFromGame) {
+    if (gameEngine instanceof GameEngine) {
       this.menuItems.return.value = "RESUME";
     } else {
       this.menuItems.return.value = "MAIN MENU";
@@ -378,8 +503,14 @@ class OptionsMenu extends Menu {
       if (this.pointerSelection === 7) {
         let gameStart = () => {
           document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
-          gameEngine = new MainMenu();
-          gameEngine.launch();
+          if (gameEngine instanceof GameEngine) {
+            window.cancelAnimationFrame(gameEngine.options.draw);
+            delete gameEngine.options;
+            gameEngine.pauseMenu.launch();
+          } else {
+            gameEngine = new MainMenu();
+            gameEngine.launch();
+          }
         };
         getRandomAnim(gameStart);
       }
