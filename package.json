@@ -19,9 +19,7 @@
   "homepage": "https://github.com/XavierGerD/bulletHELL-#readme",
   "dependencies": {
     "cookie-parser": "^1.4.4",
-    "express": "^4.17.1",
-    "multer": "^1.4.2",
-    "three": "^0.109.0"
+    "multer": "^1.4.2"
   },
   "devDependencies": {
     "webpack": "^4.41.2"
