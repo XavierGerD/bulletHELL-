@@ -18,7 +18,7 @@ class GameEngine {
     this.powerUpSpawnRate = 10000;
     this.player = new Player();
     this.enemyTypeModifier = 1;
-    this.powerUpTypeModifier = 2;
+    this.powerUpTypeModifier = 6;
     this.globalFlashCounter = 0;
     this.shootInterval;
     this.collisionInterval;
@@ -235,6 +235,7 @@ class GameEngine {
 
   isGameLost = () => {
     if (this.player.health < 1) {
+      this.player.explode();
       this.gameLost();
       return;
     }

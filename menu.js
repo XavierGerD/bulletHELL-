@@ -106,7 +106,7 @@ class MainMenu extends Menu {
       },
       leaderboards: {
         value: "LEADERBOARDS",
-        posX: canvas.width / 2 - 105,
+        posX: canvas.width / 2 - 100,
         posY: 505
       },
       custom: {
@@ -124,8 +124,8 @@ class MainMenu extends Menu {
   keyDownHandlerMenu = e => {
     this.moveArrows(e);
     if (e.code === "Enter") {
+      document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       let gameStart = () => {
-        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
         if (this.pointerSelection === 0) {
           gameEngine = new LevelSelector();
           gameEngine.launch();
@@ -145,7 +145,7 @@ class MainMenu extends Menu {
     this.parallaxees.forEach(paral => {
       ctx.drawImage(paral.image, paral.x, paral.y);
     });
-    ctx.drawImage(this.titleImg, canvas.width / 2 - 100, this.titleY);
+    // ctx.drawImage(this.titleImg, canvas.width / 2 - 100, this.titleY);
 
     this.keys.forEach(key => {
       ctx.font = "30px Racing Sans One";
@@ -158,12 +158,16 @@ class MainMenu extends Menu {
 
   moveTitle = () => {
     if (this.titleY < 300) {
-      this.titleY += 0.7;
+      // this.titleY += 0.7;
+      this.titleY += 2.2;
     }
-    if (this.titleY >= 300) {
-      this.menuItems.campaign.posX += 2;
-      this.menuItems.leaderboards.posX -= 2.27;
-      this.menuItems.custom.posX += 2.17;
+    if (this.titleY >= 200) {
+      // this.menuItems.campaign.posX += 2;
+      // this.menuItems.leaderboards.posX -= 2.27;
+      // this.menuItems.custom.posX += 2.17;
+      this.menuItems.campaign.posX += 5;
+      this.menuItems.leaderboards.posX -= 5.6;
+      this.menuItems.custom.posX += 5.5;
     }
     if (this.menuItems.campaign.posX >= canvas.width / 2 - 75) {
       introAnim = true;
@@ -186,7 +190,7 @@ class MainMenu extends Menu {
           },
           leaderboards: {
             value: "LEADERBOARDS",
-            posX: canvas.width / 2 - 105,
+            posX: canvas.width / 2 - 100,
             posY: 505
           },
           custom: {
@@ -222,11 +226,11 @@ class MainMenu extends Menu {
           posY: 555
         }
       };
-      this.titleY = -150;
+      this.titleY = -230;
       this.moveTitle();
       this.draw();
       window.addEventListener("keydown", this.skipAnim, false);
-      mainTheme.play();
+      // mainTheme.play();
     } else {
       this.pointerPosition();
       document.addEventListener("keydown", this.keyDownHandlerMenu, false);
@@ -272,8 +276,8 @@ class LevelSelector extends Menu {
   keyDownHandlerMenu = e => {
     this.moveArrows(e);
     if (e.code === "Enter") {
+      document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       let gameStart = () => {
-        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
         if (this.pointerSelection === 0) {
           gameEngine = new GameEngine();
           gameEngine.initalizeMap();
@@ -349,15 +353,14 @@ class PauseMenu extends Menu {
   keyDownHandlerMenu = e => {
     this.moveArrows(e);
     if (e.code === "Enter") {
+      document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       if (this.pointerSelection === 0) {
-        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
         gameEngine.unpause();
         gameEngine.isPaused = false;
         window.cancelAnimationFrame(gameEngine.gamePausedScreen);
         return;
       }
       let gameStart = () => {
-        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
         if (this.pointerSelection === 1) {
           gameEngine = new GameEngine();
           gameEngine.initalizeMap();
@@ -501,8 +504,8 @@ class OptionsMenu extends Menu {
         document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       }
       if (this.pointerSelection === 7) {
+        document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
         let gameStart = () => {
-          document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
           if (gameEngine instanceof GameEngine) {
             window.cancelAnimationFrame(gameEngine.options.draw);
             delete gameEngine.options;

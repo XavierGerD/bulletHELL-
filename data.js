@@ -141,7 +141,44 @@ megaBombImg.src = "Assets/megaBomb.png";
 let megaBombSilhouetteImg = new Image();
 megaBombSilhouetteImg.src = "Assets/megabomb_silhouette.png";
 
+let rightTilt = new Image();
+rightTilt.src = "Assets/ship_tilt_right02.png";
+
+let leftTilt = new Image();
+leftTilt.src = "Assets/ship_tilt_left02.png";
+
 let playerFlashArray = [playerFlash, playerImage01, playerFlash, playerImage01, playerFlash, playerImage01];
+
+let playerExplosion1 = new Image();
+playerExplosion1.src = "Assets/shipExplosion1.png";
+
+let playerExplosion2 = new Image();
+playerExplosion2.src = "Assets/shipExplosion2.png";
+
+let playerExplosion3 = new Image();
+playerExplosion3.src = "Assets/shipExplosion3.png";
+
+let playerExplosion4 = new Image();
+playerExplosion4.src = "Assets/shipExplosion4.png";
+
+let playerExplosion5 = new Image();
+playerExplosion5.src = "Assets/shipExplosion5.png";
+
+let playerExplosion6 = new Image();
+playerExplosion6.src = "Assets/shipExplosion6.png";
+
+let playerExplosion7 = new Image();
+playerExplosion7.src = "Assets/shipExplosion7.png";
+
+let playerExplosionArray = [
+  playerExplosion1,
+  playerExplosion2,
+  playerExplosion3,
+  playerExplosion4,
+  playerExplosion5,
+  playerExplosion6,
+  playerExplosion7
+];
 
 //player engine anim
 let engineAnim1 = new Image();
@@ -235,17 +272,17 @@ enemyImage03.src = "Assets/EnemyShip03.png";
 let enemy03Flash = new Image();
 enemy03Flash.src = "Assets/EnemyShip03_flash.png";
 
-// let enemy2Explode1 = new Image();
-// enemy2Explode1.src = "Assets/enemy2Explode1.png";
+let enemy3Explode1 = new Image();
+enemy3Explode1.src = "Assets/enemy3Explode1.png";
 
-// let enemy2Explode2 = new Image();
-// enemy2Explode2.src = "Assets/enemy2Explode2.png";
+let enemy3Explode2 = new Image();
+enemy3Explode2.src = "Assets/enemy3Explode2.png";
 
-// let enemy2Explode3 = new Image();
-// enemy2Explode3.src = "Assets/enemy2Explode3.png";
+let enemy3Explode3 = new Image();
+enemy3Explode3.src = "Assets/enemy3Explode3.png";
 
-// let enemy2Explode4 = new Image();
-// enemy2Explode4.src = "Assets/enemy2Explode4.png";
+let enemy3Explode4 = new Image();
+enemy3Explode4.src = "Assets/enemy3Explode4.png";
 
 //enemy-related arrays
 
@@ -267,7 +304,7 @@ let enemy1flashAnim = [enemy01Flash, enemyImage01, enemy01Flash, enemyImage01, e
 let enemy2Expl = [enemy2Explode1, enemy2Explode2, enemy2Explode3, enemy2Explode4];
 let enemy2flashAnim = [enemy02Flash, enemyImage02, enemy02Flash, enemyImage02, enemy02Flash, enemyImage02];
 
-let enemy3Expl = [enemy2Explode1, enemy2Explode2, enemy2Explode3, enemy2Explode4];
+let enemy3Expl = [enemy3Explode1, enemy3Explode2, enemy3Explode3, enemy3Explode4];
 let enemy3flashAnim = [enemy03Flash, enemyImage03, enemy03Flash, enemyImage03, enemy03Flash, enemyImage03];
 
 //editor images

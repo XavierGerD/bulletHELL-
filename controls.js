@@ -77,6 +77,7 @@ let keyPressListener = () => {
     gameEngine.player.moveDown();
   }
   if (leftPressed) {
+    gameEngine.player.tiltLeft();
     gameEngine.player.moveLeft();
     if (gameEngine.parallaxees[0].x > -4) {
       gameEngine.parallaxees[0].x -= 0.07;
@@ -84,11 +85,9 @@ let keyPressListener = () => {
     if (gameEngine.parallaxees[1].x > -10) {
       gameEngine.parallaxees[1].x -= 0.15;
     }
-    // if (gameEngine.parallaxees[2].x > -13) {
-    //   gameEngine.parallaxees[2].x -= 0.2;
-    // }
   }
   if (rightPressed) {
+    gameEngine.player.tiltRight();
     gameEngine.player.moveRight();
     if (gameEngine.parallaxees[0].x < 4) {
       gameEngine.parallaxees[0].x += 0.07;
@@ -96,12 +95,12 @@ let keyPressListener = () => {
     if (gameEngine.parallaxees[1].x < 10) {
       gameEngine.parallaxees[1].x += 0.15;
     }
-    // if (gameEngine.parallaxees[2].x < 13) {
-    //   gameEngine.parallaxees[2].x += 0.2;
-    // }
   }
   if (spacePressed) {
     gameEngine.player.shoot();
+  }
+  if (!leftPressed && !rightPressed) {
+    gameEngine.player.resetToCenter();
   }
   keyPressListenerFrame = window.requestAnimationFrame(keyPressListener);
 };
