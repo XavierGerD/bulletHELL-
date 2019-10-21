@@ -16,6 +16,7 @@ scene.add(light3);
 
 let blasterText;
 let starText;
+let RacingOne;
 
 var loader = new THREE.FontLoader();
 
@@ -26,9 +27,10 @@ let star = loader.load("/Assets/Fonts/Racing Sans One_Regular.json", function(fo
     height: 0.5,
     curveSegments: 12
   });
+
   geometry.translate(-2.1, 0, -0.25);
   starText = new THREE.Mesh(geometry, material);
-  starText.position.set(0, 2.5, 1);
+  starText.position.set(0, 24.5, 1);
 });
 
 let blaster = loader.load("/Assets/Fonts/Racing Sans One_Regular.json", function(font) {
@@ -40,8 +42,19 @@ let blaster = loader.load("/Assets/Fonts/Racing Sans One_Regular.json", function
   });
   geometry.translate(-3.8, 0.25, -0.25);
   blasterText = new THREE.Mesh(geometry, material);
-  blasterText.position.set(0, 0, 1);
+  blasterText.position.set(0, 22, 1);
 });
+
+// loader.load("/Assets/Fonts/Racing Sans One_Regular.json", function(font) {
+//   RacingOne = font;
+// });
+
+// let params1 = {
+//   font: RacingOne,
+//   size: 1.3,
+//   height: 0.5,
+//   curveSegments: 12
+// };
 
 camera.position.z = 20;
 
@@ -51,15 +64,34 @@ let waitForLoad = () => {
   } else {
     scene.add(starText);
     scene.add(blasterText);
-    animate();
   }
 };
 
-var animate = function() {
-  if (blasterText.rotation.y <= 6.28) {
-    requestAnimationFrame(animate);
-    blasterText.rotation.y += 0.01;
-    starText.rotation.y += 0.01;
+let animateTitle = function() {
+  if (blasterText.position.y >= 0.25) {
+    requestAnimationFrame(animateTitle);
+    blasterText.rotation.y += 0.0526;
+    starText.rotation.y += 0.0526;
+    blasterText.position.y -= 0.0915;
+    starText.position.y -= 0.0915;
+    renderer.render(scene, camera);
+  }
+};
+
+let exitAnim = () => {
+  if (blasterText.position.x < 10) {
+    requestAnimationFrame(exitAnim);
+    blasterText.position.x += 2;
+    starText.position.x -= 2;
+    renderer.render(scene, camera);
+  }
+};
+
+let entranceAnim = () => {
+  if (blasterText.position.x > 0.25) {
+    requestAnimationFrame(entranceAnim);
+    blasterText.position.x -= 2;
+    starText.position.x += 2;
     renderer.render(scene, camera);
   }
 };

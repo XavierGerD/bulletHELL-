@@ -1,8 +1,8 @@
-// let spotGeneration = () => {
-//   let spots = GAME_WIDTH / ENEMY1_WIDTH;
-//   let nextShip = Math.floor(Math.random() * (spots - 2) + 1);
-//   return nextShip * ENEMY1_WIDTH;
-// };
+let spotGeneration = () => {
+  let spots = GAME_WIDTH / ENEMY1_WIDTH;
+  let nextShip = Math.floor(Math.random() * (spots - 2) + 1);
+  return nextShip * ENEMY1_WIDTH;
+};
 
 // let enemyGenerationFrame;
 

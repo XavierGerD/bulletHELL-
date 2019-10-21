@@ -3,7 +3,7 @@ class Menu {
     this.x = 0;
     this.y = 0;
     this.titleImg = titleScreen;
-    this.background = background;
+
     this.menuPointer = menuPointer;
     this.parallaxees = [new Parallax(0, 0, parallax1), new Parallax(0, 0, parallax2), new Parallax(0, 0, parallax3)];
     this.pointerPosX = canvas.width / 2 - 100;
@@ -17,7 +17,7 @@ class Menu {
     this.parallaxees.forEach(paral => {
       ctx.drawImage(paral.image, paral.x, paral.y);
     });
-    ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 300);
+    // ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 300);
 
     this.keys.forEach(key => {
       ctx.font = "30px Racing Sans One";
@@ -127,6 +127,7 @@ class MainMenu extends Menu {
       document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
       let gameStart = () => {
         if (this.pointerSelection === 0) {
+          entranceAnim();
           gameEngine = new LevelSelector();
           gameEngine.launch();
         }
@@ -135,6 +136,7 @@ class MainMenu extends Menu {
           gameEngine.editorLoop();
         }
       };
+      exitAnim();
       getRandomAnim(gameStart);
     }
   };
@@ -158,13 +160,9 @@ class MainMenu extends Menu {
 
   moveTitle = () => {
     if (this.titleY < 300) {
-      // this.titleY += 0.7;
       this.titleY += 2.2;
     }
     if (this.titleY >= 200) {
-      // this.menuItems.campaign.posX += 2;
-      // this.menuItems.leaderboards.posX -= 2.27;
-      // this.menuItems.custom.posX += 2.17;
       this.menuItems.campaign.posX += 5;
       this.menuItems.leaderboards.posX -= 5.6;
       this.menuItems.custom.posX += 5.5;
@@ -172,7 +170,7 @@ class MainMenu extends Menu {
     if (this.menuItems.campaign.posX >= canvas.width / 2 - 75) {
       introAnim = true;
       window.cancelAnimationFrame(this.moveTitle);
-      window.removeEventListener("keydown", this.skipAnim, false);
+      // window.removeEventListener("keydown", this.skipAnim, false);
       this.launch();
       return;
     }
@@ -229,7 +227,8 @@ class MainMenu extends Menu {
       this.titleY = -230;
       this.moveTitle();
       this.draw();
-      window.addEventListener("keydown", this.skipAnim, false);
+      animateTitle();
+      // window.addEventListener("keydown", this.skipAnim, false);
       // mainTheme.play();
     } else {
       this.pointerPosition();
@@ -298,10 +297,12 @@ class LevelSelector extends Menu {
           gameEngine.launch();
         }
         if (gameEngine.pointerSelection === 4) {
+          entranceAnim();
           gameEngine = new MainMenu();
           gameEngine.launch();
         }
       };
+      exitAnim();
       getRandomAnim(gameStart);
     }
   };
@@ -338,7 +339,6 @@ class PauseMenu extends Menu {
   draw = () => {
     ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(this.titleImg, canvas.width / 2 - 100, 200);
 
     this.keys.forEach(key => {
       ctx.font = "30px Racing Sans One";
@@ -371,10 +371,12 @@ class PauseMenu extends Menu {
           gameEngine.options.launch();
         }
         if (this.pointerSelection === 3) {
+          entranceAnim();
           gameEngine = new MainMenu();
           gameEngine.launch();
         }
       };
+      exitAnim();
       getRandomAnim(gameStart);
     }
   };
@@ -427,6 +429,7 @@ class OptionsMenu extends Menu {
       }
     };
     this.keys = Object.keys(this.menuItems);
+    this.destroyed = false;
   }
 
   returnTo = () => {
@@ -438,20 +441,22 @@ class OptionsMenu extends Menu {
   };
 
   draw = () => {
-    this.returnTo();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(background, 0, 0);
-    this.parallaxees.forEach(paral => {
-      ctx.drawImage(paral.image, paral.x, paral.y);
-    });
-    this.keys.forEach(key => {
-      ctx.font = "25px Racing Sans One";
-      ctx.fillStyle = "white";
-      ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
-    });
-    ctx.fillText(this.menuItems.return.value, this.menuItems.return.posX, this.menuItems.return.posY);
-    ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
-    window.requestAnimationFrame(this.draw);
+    if (!this.destroyed) {
+      this.returnTo();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(background, 0, 0);
+      this.parallaxees.forEach(paral => {
+        ctx.drawImage(paral.image, paral.x, paral.y);
+      });
+      this.keys.forEach(key => {
+        ctx.font = "25px Racing Sans One";
+        ctx.fillStyle = "white";
+        ctx.fillText(this.menuItems[key].value, this.menuItems[key].posX, this.menuItems[key].posY);
+      });
+      ctx.fillText(this.menuItems.return.value, this.menuItems.return.posX, this.menuItems.return.posY);
+      ctx.drawImage(this.menuPointer, this.pointerPosX, this.pointerPosY);
+      window.requestAnimationFrame(this.draw);
+    }
   };
 
   returnNewKeyCode = e => {
@@ -507,10 +512,13 @@ class OptionsMenu extends Menu {
         document.removeEventListener("keydown", this.keyDownHandlerMenu, false);
         let gameStart = () => {
           if (gameEngine instanceof GameEngine) {
+            entranceAnim();
             window.cancelAnimationFrame(gameEngine.options.draw);
+            this.destroyed = true;
             delete gameEngine.options;
             gameEngine.pauseMenu.launch();
           } else {
+            entranceAnim();
             gameEngine = new MainMenu();
             gameEngine.launch();
           }

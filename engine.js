@@ -32,7 +32,6 @@ class GameEngine {
     this.movingStars = new Parallax(0, 0, movingStars);
     this.movingStars2 = new Parallax(0, -canvas.height * 2, movingStars);
     this.isPaused = false;
-    this.options;
   }
   // new Parallax(0, 0, parallax3)
   initalizeMap = () => {
@@ -45,6 +44,9 @@ class GameEngine {
       }
       if (enemy.value === "EnemyT3") {
         this.enemies.push(new EnemyT3(enemy.x, enemy.y));
+      }
+      if (enemy.value === "JackyBoy") {
+        this.enemies.push(new JackyBoy(enemy.x, enemy.y));
       }
     });
   };
@@ -108,7 +110,6 @@ class GameEngine {
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + this.score, 10, 20);
     playAreaFlash();
-
     ctx.drawImage(this.player.image, this.player.x, this.player.y);
 
     window.requestAnimationFrame(this.drawGame);
@@ -244,6 +245,7 @@ class GameEngine {
 
   pause = () => {
     // document.removeEventListener("keydown", keyDownHandler, false);
+    entranceAnim();
     this.pauseMenu = new PauseMenu();
     this.pauseMenu.launch();
     window.cancelAnimationFrame(this.isGameLostFrame);
@@ -257,6 +259,7 @@ class GameEngine {
   };
 
   unpause = () => {
+    exitAnim();
     delete this.pauseMenu;
     keyPressListener();
     window.requestAnimationFrame(this.drawGame);

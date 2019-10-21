@@ -221,6 +221,7 @@ class MapEditor {
         canvas.removeEventListener("click", this.isClicked, false);
         document.removeEventListener("keydown", this.isScrolled, false);
         canvas.removeEventListener("mousemove", this.isHovered, false);
+        entranceAnim();
         gameEngine = new MainMenu();
         gameEngine.launch();
       };
@@ -274,8 +275,8 @@ class MapEditor {
 
   editorLoop = () => {
     this.generateRows();
-    canvas.addEventListener("click", this.isClicked, false);
-    canvas.addEventListener("mousemove", this.isHovered, false);
+    gl.addEventListener("click", this.isClicked, false);
+    gl.addEventListener("mousemove", this.isHovered, false);
     document.addEventListener("keydown", this.isScrolled, false);
     window.requestAnimationFrame(this.draw);
   };

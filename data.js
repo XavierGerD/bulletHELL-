@@ -75,11 +75,14 @@ let ctx = canvas.getContext("2d");
 // canvas.height = GAME_HEIGHT + "";
 // canvas.width = GAME_WIDTH + "";
 // body.append(canvas);
-// let gl = document.getElementById("gl");
-// let glctx = gl.getContext("webgl");
+let gl = document.getElementById("gl");
+let glctx = gl.getContext("webgl");
 
 let background = new Image();
 background.src = "Assets/background.png";
+
+let background2 = new Image();
+background2.src = "Assets/background2.png";
 
 let titleScreen = new Image();
 titleScreen.src = "Assets/Title.png";
@@ -223,6 +226,11 @@ bulletImage01.src = "Assets/Bullet01.png";
 
 let bulletImage02 = new Image();
 bulletImage02.src = "Assets/Bullet02.png";
+
+//bosses images
+
+let jackyBoyImg = new Image();
+jackyBoyImg.src = "Assets/jackyboy.png";
 
 //enemy1 images
 

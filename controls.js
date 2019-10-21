@@ -39,9 +39,10 @@ let keyDownHandler = e => {
       gameEngine.pause();
       gameEngine.isPaused = true;
     } else if (gameEngine.isPaused && gameEngine.gameStart) {
-      gameEngine.unpause();
       gameEngine.isPaused = false;
+      gameEngine.unpause();
       window.cancelAnimationFrame(gameEngine.gamePausedScreen);
+      return;
     }
   }
 };
