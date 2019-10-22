@@ -17,6 +17,7 @@ class Player {
     this.explArray = playerExplosionArray;
     this.explosionCounter = 0;
   }
+
   explode = () => {
     this.image = this.explArray[this.explosionCounter];
     this.explosionCounter++;
@@ -50,6 +51,7 @@ class Player {
   shoot() {
     let now = new Date() / 1;
     if (now - this.lastShot > this.rateOfFire) {
+      player_shoot.play();
       if (this.PowerUpType === "single") {
         gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 4, this.y, 0, 1));
       }

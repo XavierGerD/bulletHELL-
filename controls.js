@@ -4,6 +4,16 @@ let leftPressed = false;
 let rightPressed = false;
 let spacePressed = false;
 
+let keyMapping = {
+  up: "ArrowUp",
+  down: "ArrowDown",
+  left: "ArrowLeft",
+  right: "ArrowRight",
+  shoot: "Space",
+  bomb: "KeyZ",
+  pause: "KeyP"
+};
+
 let keyDownHandler = e => {
   if (e.code === keyMapping.up) {
     upPressed = true;
@@ -21,15 +31,17 @@ let keyDownHandler = e => {
     spacePressed = true;
   }
   if (e.code === keyMapping.bomb && gameEngine.gameStart) {
+    megabombExpl.play();
     gameEngine.player.megaBomb();
   }
   if (e.code === "Enter" && gameEngine.gameStart === false) {
     window.cancelAnimationFrame(gameEngine.drawGame);
     let newGame = () => {
-      firstEnemy = true;
+      flyingDragon.stop();
       gameEngine = new GameEngine();
       gameEngine.player = new Player();
       gameEngine.initalizeMap();
+      gameEngine.firstEnemy = true;
       gameEngine.gameLoop();
     };
     getRandomAnim(newGame);
@@ -37,13 +49,10 @@ let keyDownHandler = e => {
   if (e.code === keyMapping.pause) {
     if (!gameEngine.isPaused && gameEngine.gameStart) {
       gameEngine.pause();
-      gameEngine.isPaused = true;
-    } else if (gameEngine.isPaused && gameEngine.gameStart) {
-      gameEngine.isPaused = false;
-      gameEngine.unpause();
-      window.cancelAnimationFrame(gameEngine.gamePausedScreen);
-      return;
     }
+    // else if (gameEngine.isPaused && gameEngine.gameStart) {
+    //   gameEngine.unpause();
+    // }
   }
 };
 

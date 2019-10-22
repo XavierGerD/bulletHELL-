@@ -19,7 +19,7 @@ let maps = [
     { x: 30, y: -180, value: "EnemyT3" },
     { x: 90, y: -180, value: "EnemyT1" },
     { x: 210, y: -210, value: "EnemyT1" },
-    { x: 60, y: -300, value: "EnemyT1" },
+    { x: 120, y: -300, value: "JackyBoy" },
     { x: 90, y: -330, value: "EnemyT1" },
     { x: 60, y: -360, value: "EnemyT1" },
     { x: 210, y: -360, value: "EnemyT1" },
@@ -59,15 +59,6 @@ let maps = [
   ]
 ];
 let customMaps = [];
-let keyMapping = {
-  up: "ArrowUp",
-  down: "ArrowDown",
-  left: "ArrowLeft",
-  right: "ArrowRight",
-  shoot: "Space",
-  bomb: "KeyZ",
-  pause: "KeyP"
-};
 
 // let body = document.getElementById("body");
 let canvas = document.getElementById("canvas");
@@ -232,6 +223,23 @@ bulletImage02.src = "Assets/Bullet02.png";
 let jackyBoyImg = new Image();
 jackyBoyImg.src = "Assets/jackyboy.png";
 
+let eyesAnim01 = new Image();
+eyesAnim01.src = "Assets/eyesanim1.png";
+
+let eyesAnim02 = new Image();
+eyesAnim02.src = "Assets/eyesanim2.png";
+
+let eyesAnim03 = new Image();
+eyesAnim03.src = "Assets/eyesanim3.png";
+
+let eyesAnim04 = new Image();
+eyesAnim04.src = "Assets/eyesanim4.png";
+
+let eyesAnim05 = new Image();
+eyesAnim05.src = "Assets/eyesanim5.png";
+
+let eyesAnimArray = [eyesAnim01, eyesAnim02, eyesAnim03, eyesAnim04, eyesAnim05];
+
 //enemy1 images
 
 let enemyImage01 = new Image();
@@ -326,3 +334,19 @@ removeRowsImg.src = "Assets/removeRows.png";
 //music
 
 let mainTheme = new Howl({ src: "Assets/Music/Main_theme.mp3" });
+let flyingDragon = new Howl({ src: "Assets/Music/Flying_Dragon.mp3", volume: 0.5 });
+let chromatic = new Howl({ src: "Assets/Music/Chromatic_thingy.mp3", volume: 0.5 });
+let obfus = new Howl({ src: "Assets/Music/Obfuscation.mp3", volume: 0.5 });
+
+//sound effects
+
+let shipExpl = new Howl({ src: "Assets/Music/ship_explosion.mp3" });
+let megabombExpl = new Howl({ src: "Assets/Music/megaBombExpl.mp3", volume: 1 });
+let player_shoot = new Howl({ src: "Assets/Music/player_shoot.mp3", volume: 0.3 });
+let enemy1shoot = new Howl({ src: "Assets/Music/enemy1shoot.mp3", volume: 0.3 });
+let enemy2shoot = new Howl({ src: "Assets/Music/enemy2shoot.mp3", volume: 0.1 });
+let enemy3shoot = new Howl({ src: "Assets/Music/enemy3shoot.mp3", volume: 0.1 });
+let enemydead = new Howl({ src: "Assets/Music/enemydead.mp3", volume: 0.4 });
+let shipHit = new Howl({ src: "Assets/Music/shipHit.mp3", volume: 0.4 });
+let enemyHit = new Howl({ src: "Assets/Music/enemyHit.mp3", volume: 0.4 });
+let waka = new Howl({ src: "Assets/Music/waka.wav", volume: 1 });

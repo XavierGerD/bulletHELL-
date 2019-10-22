@@ -53,6 +53,7 @@ class EnemyT1 extends Enemy {
   shoot = () => {
     let now = new Date() / 1;
     if (now - this.lastShot > this.rateOfFire) {
+      enemy1shoot.play();
       gameEngine.enemyBullets.push(new bulletT1(this.x - 4, this.y, 1, 0, 1));
       gameEngine.enemyBullets.push(new bulletT1(this.x - 4, this.y, 1, -0.38, 0.92));
       gameEngine.enemyBullets.push(new bulletT1(this.x - 4, this.y, 1, 0.38, 0.92));
@@ -94,6 +95,7 @@ class EnemyT2 extends Enemy {
       if (this.shootOrder > this.shootPatternX.length) {
         this.shootOrder = 0;
       }
+      enemy2shoot.play();
       gameEngine.enemyBullets.push(new bulletT1(this.x - 4, this.y, bulletSpeedModifier, this.xModifier, this.yModifier));
     } else return;
     this.lastShot = new Date() / 1;
@@ -128,6 +130,7 @@ class EnemyT3 extends Enemy {
       if (this.shootOrder > this.shootPatternX.length) {
         this.shootOrder = 0;
       }
+      enemy3shoot.play();
       gameEngine.enemyBullets.push(new bulletT1(this.x - 4, this.y, this.bulletSpeedModifier, this.xModifier, this.yModifier));
     } else return;
     this.lastShot = new Date() / 1;
