@@ -243,12 +243,13 @@ class MainMenu extends Menu {
           geometry
         }
       };
+      this.threeDeeItems = {};
       this.titleY = -230;
       this.moveTitle();
       this.draw();
       animateTitle();
-      // this.generate3D(menuItem);
-      // window.addEventListener("keydown", this.skipAnim, false);
+      // this.generate3D();
+      window.addEventListener("keydown", this.skipAnim, false);
       mainTheme.play();
     } else {
       this.pointerPosition();
@@ -257,14 +258,25 @@ class MainMenu extends Menu {
     }
   };
 
-  generate3D = (item, text) => {
+  generate3D = () => {
     if (!params) {
       return;
     }
-    let instance = new THREE.TextGeometry(text, params);
-    instance.translate(-3.8, 0.25, -0.25);
-    item = new THREE.Mesh(blaster, material);
-    scene.add(item);
+    let keys = Object.keys(this.menuItems);
+    keys.forEach((key, i) => {
+      let text = this.menuItems[key].value;
+      let instance = new THREE.TextGeometry(text, params);
+      instance.translate(-3.8, 0.25, -0.25);
+      this.threeDeeItems[key] = new THREE.Mesh(instance, material);
+      console.log(this.threeDeeItems);
+      scene.add(this.threeDeeItems[key]);
+      this.threeDeeItems[key].position.y = i * -2 - 2.5;
+      if (i % 2 === 0) {
+        this.threeDeeItems[key].position.x = 1;
+      } else {
+        this.threeDeeItems[key].position.x = -1;
+      }
+    });
   };
 }
 

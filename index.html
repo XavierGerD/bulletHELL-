@@ -14,7 +14,10 @@
 
     .maintext {
       color: white;
-      font-family: 'Kanit'
+      font-family: 'Kanit';
+      padding-bottom: 25px;
+      word-wrap: break-word;
+      width: 250px;
     }
 
     .readme {
@@ -47,6 +50,7 @@
 <body id="body">
   <canvas id="canvas" width="300" height="800" style="position: absolute; left: 45%; top: 0; z-index: 0;"></canvas>
   <canvas id="gl" width="300" height="800" style="position: absolute; left: 45%; top: 0; z-index: 1;"></canvas>
+
   <script src="howler.js"></script>
   <script src="data.js"></script>
   <script src="/three/build/three.js"></script>
@@ -81,25 +85,28 @@
     </div>
     <div class="readmeblock">
       <h2>Powerups</h2>
-      <P class="maintext">There are five powerups<br>
-        Green arrow is more damage<br>
-        Yellow double arrows is increased rate of fire<br>
-        Two blue bullets is double shoot<br>
-        Three blue bullets is triple shoot<br>
-        Megabomb is extra MegaBomb<br>
+      <P class="maintext">There are five powerups
+        Green arrow is more damage
+        Yellow double arrows is increased rate of fire
+        Two blue bullets is double shoot
+        Three blue bullets is triple shoot
+        Megabomb is extra MegaBomb
         Red cross is extra health
       </P>
       <h2>Map editor</h2>
       <div>
         <p class="maintext">
-          To use the map editor, <br>
-          select the enemy you want to add and <br>
-          place it on the grid.<br>
-          Use the arrow keys to move the<br>
-          grip up and down. Once you are<br>
-          done, press Save, Exit, <br>
+          To use the map editor,
+          select the enemy you want to add and
+          place it on the grid.
+          Use the arrow keys to move the
+          grip up and down. Once you are
+          done, press Save, Exit,
           and launch a new game!</p>
       </div>
+      <p class="maintext">
+        All assets by Xavier Gervais-Dumont
+      </p>
     </div>
 
   </div>

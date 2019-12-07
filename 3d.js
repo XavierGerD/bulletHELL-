@@ -14,9 +14,7 @@ scene.add(light2);
 let light3 = new THREE.HemisphereLight(0xff00cc, 0xff00cc);
 scene.add(light3);
 
-// let blasterText;
 let starText;
-// let RacingOne;
 
 var loader = new THREE.FontLoader();
 
@@ -45,23 +43,12 @@ let blaster = loader.load("/Assets/Fonts/Racing Sans One_Regular.json", function
   blasterText.position.set(0, 22, 1);
 });
 
-// loader.load("/Assets/Fonts/Racing Sans One_Regular.json", function(font) {
-//   RacingOne = font;
-// });
-
-// let params1 = {
-//   font: RacingOne,
-//   size: 1.3,
-//   height: 0.5,
-//   curveSegments: 12
-// };
-
 let RacingOne, params, blasterText;
 loader.load("/Assets/Fonts/Racing Sans One_Regular.json", function(font) {
   RacingOne = font;
   params = {
     font: RacingOne,
-    size: 1.3,
+    size: 1,
     height: 0.5,
     curveSegments: 12
   };

@@ -19,7 +19,7 @@ let maps = [
     { x: 30, y: -180, value: "EnemyT3" },
     { x: 90, y: -180, value: "EnemyT1" },
     { x: 210, y: -210, value: "EnemyT1" },
-    { x: 120, y: -300, value: "JackyBoy" },
+    { x: 120, y: -300, value: "EnemyT1" },
     { x: 90, y: -330, value: "EnemyT1" },
     { x: 60, y: -360, value: "EnemyT1" },
     { x: 210, y: -360, value: "EnemyT1" },
