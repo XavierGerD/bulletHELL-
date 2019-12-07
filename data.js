@@ -19,7 +19,7 @@ let maps = [
     { x: 30, y: -180, value: "EnemyT3" },
     { x: 90, y: -180, value: "EnemyT1" },
     { x: 210, y: -210, value: "EnemyT1" },
-    { x: 60, y: -300, value: "EnemyT1" },
+    { x: 120, y: -300, value: "EnemyT1" },
     { x: 90, y: -330, value: "EnemyT1" },
     { x: 60, y: -360, value: "EnemyT1" },
     { x: 210, y: -360, value: "EnemyT1" },
@@ -59,15 +59,6 @@ let maps = [
   ]
 ];
 let customMaps = [];
-let keyMapping = {
-  up: "ArrowUp",
-  down: "ArrowDown",
-  left: "ArrowLeft",
-  right: "ArrowRight",
-  shoot: "Space",
-  bomb: "KeyZ",
-  pause: "KeyP"
-};
 
 // let body = document.getElementById("body");
 let canvas = document.getElementById("canvas");
@@ -75,11 +66,14 @@ let ctx = canvas.getContext("2d");
 // canvas.height = GAME_HEIGHT + "";
 // canvas.width = GAME_WIDTH + "";
 // body.append(canvas);
-// let gl = document.getElementById("gl");
-// let glctx = gl.getContext("webgl");
+let gl = document.getElementById("gl");
+let glctx = gl.getContext("webgl");
 
 let background = new Image();
 background.src = "Assets/background.png";
+
+let background2 = new Image();
+background2.src = "Assets/background2.png";
 
 let titleScreen = new Image();
 titleScreen.src = "Assets/Title.png";
@@ -141,7 +135,44 @@ megaBombImg.src = "Assets/megaBomb.png";
 let megaBombSilhouetteImg = new Image();
 megaBombSilhouetteImg.src = "Assets/megabomb_silhouette.png";
 
+let rightTilt = new Image();
+rightTilt.src = "Assets/ship_tilt_right02.png";
+
+let leftTilt = new Image();
+leftTilt.src = "Assets/ship_tilt_left02.png";
+
 let playerFlashArray = [playerFlash, playerImage01, playerFlash, playerImage01, playerFlash, playerImage01];
+
+let playerExplosion1 = new Image();
+playerExplosion1.src = "Assets/shipExplosion1.png";
+
+let playerExplosion2 = new Image();
+playerExplosion2.src = "Assets/shipExplosion2.png";
+
+let playerExplosion3 = new Image();
+playerExplosion3.src = "Assets/shipExplosion3.png";
+
+let playerExplosion4 = new Image();
+playerExplosion4.src = "Assets/shipExplosion4.png";
+
+let playerExplosion5 = new Image();
+playerExplosion5.src = "Assets/shipExplosion5.png";
+
+let playerExplosion6 = new Image();
+playerExplosion6.src = "Assets/shipExplosion6.png";
+
+let playerExplosion7 = new Image();
+playerExplosion7.src = "Assets/shipExplosion7.png";
+
+let playerExplosionArray = [
+  playerExplosion1,
+  playerExplosion2,
+  playerExplosion3,
+  playerExplosion4,
+  playerExplosion5,
+  playerExplosion6,
+  playerExplosion7
+];
 
 //player engine anim
 let engineAnim1 = new Image();
@@ -186,6 +217,28 @@ bulletImage01.src = "Assets/Bullet01.png";
 
 let bulletImage02 = new Image();
 bulletImage02.src = "Assets/Bullet02.png";
+
+//bosses images
+
+let jackyBoyImg = new Image();
+jackyBoyImg.src = "Assets/jackyboy.png";
+
+let eyesAnim01 = new Image();
+eyesAnim01.src = "Assets/eyesanim1.png";
+
+let eyesAnim02 = new Image();
+eyesAnim02.src = "Assets/eyesanim2.png";
+
+let eyesAnim03 = new Image();
+eyesAnim03.src = "Assets/eyesanim3.png";
+
+let eyesAnim04 = new Image();
+eyesAnim04.src = "Assets/eyesanim4.png";
+
+let eyesAnim05 = new Image();
+eyesAnim05.src = "Assets/eyesanim5.png";
+
+let eyesAnimArray = [eyesAnim01, eyesAnim02, eyesAnim03, eyesAnim04, eyesAnim05];
 
 //enemy1 images
 
@@ -235,17 +288,17 @@ enemyImage03.src = "Assets/EnemyShip03.png";
 let enemy03Flash = new Image();
 enemy03Flash.src = "Assets/EnemyShip03_flash.png";
 
-// let enemy2Explode1 = new Image();
-// enemy2Explode1.src = "Assets/enemy2Explode1.png";
+let enemy3Explode1 = new Image();
+enemy3Explode1.src = "Assets/enemy3Explode1.png";
 
-// let enemy2Explode2 = new Image();
-// enemy2Explode2.src = "Assets/enemy2Explode2.png";
+let enemy3Explode2 = new Image();
+enemy3Explode2.src = "Assets/enemy3Explode2.png";
 
-// let enemy2Explode3 = new Image();
-// enemy2Explode3.src = "Assets/enemy2Explode3.png";
+let enemy3Explode3 = new Image();
+enemy3Explode3.src = "Assets/enemy3Explode3.png";
 
-// let enemy2Explode4 = new Image();
-// enemy2Explode4.src = "Assets/enemy2Explode4.png";
+let enemy3Explode4 = new Image();
+enemy3Explode4.src = "Assets/enemy3Explode4.png";
 
 //enemy-related arrays
 
@@ -267,7 +320,7 @@ let enemy1flashAnim = [enemy01Flash, enemyImage01, enemy01Flash, enemyImage01, e
 let enemy2Expl = [enemy2Explode1, enemy2Explode2, enemy2Explode3, enemy2Explode4];
 let enemy2flashAnim = [enemy02Flash, enemyImage02, enemy02Flash, enemyImage02, enemy02Flash, enemyImage02];
 
-let enemy3Expl = [enemy2Explode1, enemy2Explode2, enemy2Explode3, enemy2Explode4];
+let enemy3Expl = [enemy3Explode1, enemy3Explode2, enemy3Explode3, enemy3Explode4];
 let enemy3flashAnim = [enemy03Flash, enemyImage03, enemy03Flash, enemyImage03, enemy03Flash, enemyImage03];
 
 //editor images
@@ -281,3 +334,19 @@ removeRowsImg.src = "Assets/removeRows.png";
 //music
 
 let mainTheme = new Howl({ src: "Assets/Music/Main_theme.mp3" });
+let flyingDragon = new Howl({ src: "Assets/Music/Flying_Dragon.mp3", volume: 0.5 });
+let chromatic = new Howl({ src: "Assets/Music/Chromatic_thingy.mp3", volume: 0.5 });
+let obfus = new Howl({ src: "Assets/Music/Obfuscation.mp3", volume: 0.5 });
+
+//sound effects
+
+let shipExpl = new Howl({ src: "Assets/Music/ship_explosion.mp3" });
+let megabombExpl = new Howl({ src: "Assets/Music/megaBombExpl.mp3", volume: 1 });
+let player_shoot = new Howl({ src: "Assets/Music/player_shoot.mp3", volume: 0.3 });
+let enemy1shoot = new Howl({ src: "Assets/Music/enemy1shoot.mp3", volume: 0.3 });
+let enemy2shoot = new Howl({ src: "Assets/Music/enemy2shoot.mp3", volume: 0.1 });
+let enemy3shoot = new Howl({ src: "Assets/Music/enemy3shoot.mp3", volume: 0.1 });
+let enemydead = new Howl({ src: "Assets/Music/enemydead.mp3", volume: 0.4 });
+let shipHit = new Howl({ src: "Assets/Music/shipHit.mp3", volume: 0.4 });
+let enemyHit = new Howl({ src: "Assets/Music/enemyHit.mp3", volume: 0.4 });
+let waka = new Howl({ src: "Assets/Music/waka.wav", volume: 1 });

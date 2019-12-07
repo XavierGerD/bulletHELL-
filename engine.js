@@ -6,6 +6,7 @@ class GameEngine {
     this.allEnemies = [];
     this.enemySpawnModifier = 1;
     this.enemies = [];
+    this.bosses = [];
     this.powerups = [];
     this.fireRate = 100;
     this.firstEnemy = true;
@@ -18,7 +19,7 @@ class GameEngine {
     this.powerUpSpawnRate = 10000;
     this.player = new Player();
     this.enemyTypeModifier = 1;
-    this.powerUpTypeModifier = 2;
+    this.powerUpTypeModifier = 6;
     this.globalFlashCounter = 0;
     this.shootInterval;
     this.collisionInterval;
@@ -32,9 +33,8 @@ class GameEngine {
     this.movingStars = new Parallax(0, 0, movingStars);
     this.movingStars2 = new Parallax(0, -canvas.height * 2, movingStars);
     this.isPaused = false;
-    this.options;
   }
-  // new Parallax(0, 0, parallax3)
+
   initalizeMap = () => {
     maps[0].forEach(enemy => {
       if (enemy.value === "EnemyT1") {
@@ -45,6 +45,9 @@ class GameEngine {
       }
       if (enemy.value === "EnemyT3") {
         this.enemies.push(new EnemyT3(enemy.x, enemy.y));
+      }
+      if (enemy.value === "JackyBoy") {
+        this.bosses.push(new JackyBoy(enemy.x, enemy.y));
       }
     });
   };
@@ -83,8 +86,10 @@ class GameEngine {
       ctx.drawImage(bullet.image, bullet.x, bullet.y);
     });
 
-    this.enemies.forEach(enemy => {
-      ctx.drawImage(enemy.image, enemy.x, enemy.y);
+    [this.enemies, this.bosses].forEach(array => {
+      array.forEach(enemy => {
+        ctx.drawImage(enemy.image, enemy.x, enemy.y);
+      });
     });
 
     this.powerups.forEach(power => {
@@ -108,8 +113,15 @@ class GameEngine {
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + this.score, 10, 20);
     playAreaFlash();
-
     ctx.drawImage(this.player.image, this.player.x, this.player.y);
+
+    this.bosses.forEach(boss => {
+      boss.entranceAnim();
+      if (boss.areEyesAnim) {
+        boss.animateEyes();
+        ctx.drawImage(boss.eyesImage, boss.x, boss.y);
+      }
+    });
 
     window.requestAnimationFrame(this.drawGame);
   };
@@ -117,18 +129,22 @@ class GameEngine {
   enemiesShoot = () => {
     let now = new Date();
     if (now - this.lastShotRound > this.fireRate) {
-      this.enemies.forEach(enemy => {
-        if (enemy.y > 0) {
-          enemy.shoot();
-        }
+      [this.enemies, this.bosses].forEach(array => {
+        array.forEach(enemy => {
+          if (enemy.y > 0) {
+            enemy.shoot();
+          }
+        });
       });
     }
     this.enemiesShootFrame = window.requestAnimationFrame(this.enemiesShoot);
   };
 
   move = () => {
-    this.enemies.forEach(enemy => {
-      enemy.update(0, ENEMY1_SPEED);
+    [this.enemies, this.bosses].forEach(array => {
+      array.forEach(enemy => {
+        enemy.update(0, ENEMY1_SPEED);
+      });
     });
     let arrays = [this.enemyBullets, this.playerBullets, this.powerups];
     arrays.forEach(array => {
@@ -148,6 +164,7 @@ class GameEngine {
     }
 
     garbageCollection();
+    this.winCondition();
     this.moveFrame = window.requestAnimationFrame(this.move);
   };
 
@@ -191,14 +208,34 @@ class GameEngine {
         ) {
           enemy.health = enemy.health - this.player.damage;
           if (enemy.health > 0) {
+            enemyHit.play();
             enemy.flash();
           }
-
           this.playerBullets.splice(j, 1);
           if (enemy.health <= 0) {
+            enemydead.play();
             this.score += enemy.points;
             this.gameDifficulty();
             enemy.explode();
+          }
+        }
+      });
+      this.bosses.forEach((boss, i) => {
+        if (
+          bullet.x > boss.x &&
+          bullet.x + BULLET_SIZE < boss.x + boss.size &&
+          bullet.y > boss.y &&
+          bullet.y + BULLET_SIZE < boss.y + boss.size
+        ) {
+          boss.health = boss.health - this.player.damage;
+          if (boss.health > 0) {
+            enemyHit.play();
+          }
+          this.playerBullets.splice(j, 1);
+          if (boss.health <= 0) {
+            enemydead.play();
+            this.score += boss.points;
+            this.gameDifficulty();
           }
         }
       });
@@ -211,6 +248,7 @@ class GameEngine {
         bullet.y > this.player.y &&
         bullet.y + BULLET_SIZE < this.player.y + PLAYER_HEIGHT
       ) {
+        shipHit.play();
         this.player.health -= 1;
         this.enemyBullets.splice(i, 1);
         if (this.player.health > 0) {
@@ -230,11 +268,13 @@ class GameEngine {
         this.powerups.splice(i, 1);
       }
     });
+
     this.detectCollisionFrame = window.requestAnimationFrame(this.detectCollision);
   };
 
   isGameLost = () => {
     if (this.player.health < 1) {
+      this.player.explode();
       this.gameLost();
       return;
     }
@@ -243,6 +283,8 @@ class GameEngine {
 
   pause = () => {
     // document.removeEventListener("keydown", keyDownHandler, false);
+    gameEngine.isPaused = true;
+    entranceAnim();
     this.pauseMenu = new PauseMenu();
     this.pauseMenu.launch();
     window.cancelAnimationFrame(this.isGameLostFrame);
@@ -256,6 +298,8 @@ class GameEngine {
   };
 
   unpause = () => {
+    gameEngine.isPaused = false;
+    exitAnim();
     delete this.pauseMenu;
     keyPressListener();
     window.requestAnimationFrame(this.drawGame);
@@ -269,6 +313,7 @@ class GameEngine {
   };
 
   gameLost = () => {
+    shipExpl.play();
     this.gameStart = false;
     window.cancelAnimationFrame(this.isGameLostFrame);
     window.cancelAnimationFrame(this.detectCollisionFrame);
@@ -289,7 +334,31 @@ class GameEngine {
     window.requestAnimationFrame(this.gameLostScreen);
   };
 
+  winCondition = () => {
+    if (this.enemies.length === 0) {
+      this.gameStart = false;
+      window.cancelAnimationFrame(this.isGameLostFrame);
+      window.cancelAnimationFrame(this.detectCollisionFrame);
+      window.cancelAnimationFrame(keyPressListenerFrame);
+      // window.cancelAnimationFrame(enemyGenerationFrame);
+      window.cancelAnimationFrame(this.moveFrame);
+      window.cancelAnimationFrame(this.gameDifficultyFrame);
+      window.cancelAnimationFrame(powerUpGenerationFrame);
+      window.cancelAnimationFrame(this.enemiesShootFrame);
+      this.gameWinScreen();
+    }
+  };
+
+  gameWinScreen = () => {
+    ctx.font = "30px Racing Sans One";
+    ctx.fillStyle = "white";
+    ctx.fillText("YOU WIN!", canvas.width / 2 - 75, canvas.height / 2);
+    ctx.fillText("PRESS ENTER", canvas.width / 2 - 85, canvas.height / 2 + 50);
+    window.requestAnimationFrame(this.gameWinScreen);
+  };
+
   gameLoop() {
+    flyingDragon.play();
     keyPressListener();
 
     window.requestAnimationFrame(this.drawGame);
@@ -302,7 +371,6 @@ class GameEngine {
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-
     this.playerAnimationInterval = setInterval(this.player.animateEngine, 100);
   }
 }

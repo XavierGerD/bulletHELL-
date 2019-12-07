@@ -28,3 +28,15 @@ class playerBullet extends bullet {
     this.image = bulletImage02;
   }
 }
+
+class bulletT2 extends bullet {
+  constructor(x, y, bulletSpeedModifier, xModifier, yModifier) {
+    super();
+    this.x = x;
+    this.y = y;
+    this.speed = 0.5 + bulletSpeedModifier;
+    this.xModifier = xModifier;
+    this.yModifier = yModifier;
+    this.image = bulletImage01;
+  }
+}

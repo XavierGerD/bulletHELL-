@@ -14,7 +14,20 @@ class Player {
     this.maxMegaBombs = 2;
     this.rateOfFire = 800;
     this.lastShot = new Date() / 1;
+    this.explArray = playerExplosionArray;
+    this.explosionCounter = 0;
   }
+
+  explode = () => {
+    this.image = this.explArray[this.explosionCounter];
+    this.explosionCounter++;
+    if (this.explosionCounter < this.explArray.length) {
+      this.timeout = setTimeout(this.explode, 150);
+    } else if (this.explosionCounter >= this.explArray.length) {
+      this.exploded = true;
+    }
+  };
+
   moveLeft() {
     if (this.x > 0) {
       this.x = this.x - this.speed;
@@ -38,6 +51,7 @@ class Player {
   shoot() {
     let now = new Date() / 1;
     if (now - this.lastShot > this.rateOfFire) {
+      player_shoot.play();
       if (this.PowerUpType === "single") {
         gameEngine.playerBullets.push(new playerBullet(this.x + PLAYER_WIDTH / 2 - 4, this.y, 0, 1));
       }
@@ -59,7 +73,9 @@ class Player {
     if (this.megaBombs > 0) {
       setFlashCounter();
       gameEngine.enemies.forEach(enemy => {
-        enemy.explode();
+        if (enemy.y > -30) {
+          enemy.explode();
+        }
       });
       this.megaBombs--;
     }
@@ -87,5 +103,17 @@ class Player {
     if (this.engineCounter >= engineAnimArray.length) {
       this.engineCounter = 0;
     }
+  };
+
+  tiltLeft = () => {
+    this.image = leftTilt;
+  };
+
+  tiltRight = () => {
+    this.image = rightTilt;
+  };
+
+  resetToCenter = () => {
+    this.image = playerImage01;
   };
 }

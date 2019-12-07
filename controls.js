@@ -4,6 +4,16 @@ let leftPressed = false;
 let rightPressed = false;
 let spacePressed = false;
 
+let keyMapping = {
+  up: "ArrowUp",
+  down: "ArrowDown",
+  left: "ArrowLeft",
+  right: "ArrowRight",
+  shoot: "Space",
+  bomb: "KeyZ",
+  pause: "KeyP"
+};
+
 let keyDownHandler = e => {
   if (e.code === keyMapping.up) {
     upPressed = true;
@@ -21,15 +31,17 @@ let keyDownHandler = e => {
     spacePressed = true;
   }
   if (e.code === keyMapping.bomb && gameEngine.gameStart) {
+    megabombExpl.play();
     gameEngine.player.megaBomb();
   }
   if (e.code === "Enter" && gameEngine.gameStart === false) {
     window.cancelAnimationFrame(gameEngine.drawGame);
     let newGame = () => {
-      firstEnemy = true;
+      flyingDragon.stop();
       gameEngine = new GameEngine();
       gameEngine.player = new Player();
       gameEngine.initalizeMap();
+      gameEngine.firstEnemy = true;
       gameEngine.gameLoop();
     };
     getRandomAnim(newGame);
@@ -37,12 +49,10 @@ let keyDownHandler = e => {
   if (e.code === keyMapping.pause) {
     if (!gameEngine.isPaused && gameEngine.gameStart) {
       gameEngine.pause();
-      gameEngine.isPaused = true;
-    } else if (gameEngine.isPaused && gameEngine.gameStart) {
-      gameEngine.unpause();
-      gameEngine.isPaused = false;
-      window.cancelAnimationFrame(gameEngine.gamePausedScreen);
     }
+    // else if (gameEngine.isPaused && gameEngine.gameStart) {
+    //   gameEngine.unpause();
+    // }
   }
 };
 
@@ -77,6 +87,7 @@ let keyPressListener = () => {
     gameEngine.player.moveDown();
   }
   if (leftPressed) {
+    gameEngine.player.tiltLeft();
     gameEngine.player.moveLeft();
     if (gameEngine.parallaxees[0].x > -4) {
       gameEngine.parallaxees[0].x -= 0.07;
@@ -84,11 +95,9 @@ let keyPressListener = () => {
     if (gameEngine.parallaxees[1].x > -10) {
       gameEngine.parallaxees[1].x -= 0.15;
     }
-    // if (gameEngine.parallaxees[2].x > -13) {
-    //   gameEngine.parallaxees[2].x -= 0.2;
-    // }
   }
   if (rightPressed) {
+    gameEngine.player.tiltRight();
     gameEngine.player.moveRight();
     if (gameEngine.parallaxees[0].x < 4) {
       gameEngine.parallaxees[0].x += 0.07;
@@ -96,12 +105,12 @@ let keyPressListener = () => {
     if (gameEngine.parallaxees[1].x < 10) {
       gameEngine.parallaxees[1].x += 0.15;
     }
-    // if (gameEngine.parallaxees[2].x < 13) {
-    //   gameEngine.parallaxees[2].x += 0.2;
-    // }
   }
   if (spacePressed) {
     gameEngine.player.shoot();
+  }
+  if (!leftPressed && !rightPressed) {
+    gameEngine.player.resetToCenter();
   }
   keyPressListenerFrame = window.requestAnimationFrame(keyPressListener);
 };
